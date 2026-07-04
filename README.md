@@ -158,10 +158,6 @@ Run the tests with `dotnet test Tests\ExifRenamer.Tests.csproj`.
 
 EXIF reading uses .NET's built-in `System.Drawing.Image.PropertyItems`; EXIF writing for JPEG is done by a custom lossless rewriter that patches the APP1 (TIFF/IFD) segment directly — no third-party EXIF libraries required.
 
-### How lossless JPEG editing works
+# How lossless JPEG editing works
 
 `JpegExifRewriter` walks the JPEG segment chain and replaces only the APP1 (`Exif\0\0`) segment; everything from the SOS marker onward — the compressed image data — is copied byte for byte. Inside the TIFF block, existing value data is never moved: entries are patched in place when the new value fits, larger values are appended, and when a tag is added or removed only the IFD table itself is relocated to the end of the block. Absolute offsets referenced by untouched entries (maker notes, GPS IFD, thumbnail) therefore remain valid. Both byte orders (II/MM) are supported.
-=======
-# ExifFileRenamerAndEditor
-Images EXIF file rename and editor
-
