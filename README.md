@@ -161,3 +161,7 @@ EXIF reading uses .NET's built-in `System.Drawing.Image.PropertyItems`; EXIF wri
 ### How lossless JPEG editing works
 
 `JpegExifRewriter` walks the JPEG segment chain and replaces only the APP1 (`Exif\0\0`) segment; everything from the SOS marker onward — the compressed image data — is copied byte for byte. Inside the TIFF block, existing value data is never moved: entries are patched in place when the new value fits, larger values are appended, and when a tag is added or removed only the IFD table itself is relocated to the end of the block. Absolute offsets referenced by untouched entries (maker notes, GPS IFD, thumbnail) therefore remain valid. Both byte orders (II/MM) are supported.
+=======
+# ExifFileRenamerAndEditor
+Images EXIF file rename and editor
+
