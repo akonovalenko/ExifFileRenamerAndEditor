@@ -1,0 +1,76 @@
+using ExifFileRenamer;
+using System.Collections.Generic;
+
+namespace ExifImageRenamer.Code
+{
+    public sealed class ApplicationState
+    {
+        #region Private fields
+        private IList<IProcessingFileInfo> _imagesFiles;
+        private readonly ISettingsProvider _settingsProvider;
+        private static ApplicationState _instance;
+        private static readonly object _instanceLock = new object();
+        private int _fileTypesSelectedIndex;
+        #endregion
+
+        #region Constructors
+
+        // The Singleton's constructor should always be private to prevent direct construction calls with the `new` operator.
+        private ApplicationState() 
+        {
+            this._imagesFiles = new List<IProcessingFileInfo>();
+            this._settingsProvider = new RegistrySettingsProvider();
+        }
+
+        public static ApplicationState GetInstance()
+        {
+            if (_instance == null)
+            {
+                lock (_instanceLock)
+                {
+                    if (_instance == null)
+                        _instance = new ApplicationState();
+                }
+            }
+            return _instance;
+        }
+        #endregion
+
+        #region Public proeprties
+        internal IList<IProcessingFileInfo> ImagesFiles
+        {
+            get { 
+                return this._imagesFiles; 
+            }
+
+            set { 
+                this._imagesFiles = value; 
+            }
+
+        }
+
+        public Settings Settings
+        {
+            get {
+                var settings = this._settingsProvider.LoadSettings(); 
+                return settings;
+            }
+        }
+
+        public int FileTypesSelectedIndex { 
+            get => _fileTypesSelectedIndex; 
+            set => _fileTypesSelectedIndex = value; 
+        }
+
+        #endregion
+
+        #region Public methods
+        public void SaveSettings(Settings settings)
+        {
+            this._settingsProvider.SaveSettings(settings);
+        }
+        #endregion
+
+    }
+}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
