@@ -130,6 +130,21 @@ namespace ExifFileRenamer
             this._newName = this.DirectoryName + Constants.BACK_SLASH_CHAR + name + this.Extension;
         }
 
+        /// <summary>
+        /// Apply new name to the internal source file info after a successful rename operation.
+        /// This updates FullName/Name/DirectoryName/Extension so the UI can reflect the new file without re-reading the folder.
+        /// </summary>
+        public void CommitRename()
+        {
+            if (string.IsNullOrEmpty(this._newName))
+                return;
+
+            this._sourceFileInfo.FullName = this._newName;
+            this._sourceFileInfo.Name = System.IO.Path.GetFileName(this._newName);
+            this._sourceFileInfo.DirectoryName = System.IO.Path.GetDirectoryName(this._newName);
+            this._sourceFileInfo.Extension = System.IO.Path.GetExtension(this._newName);
+        }
+
         public void SetDefaultStatus()
         {
             if (this.IsExifImage)

@@ -9,7 +9,7 @@ namespace ExifFileRenamer
     /// <summary>
     /// A single EXIF tag modification. Null data removes the tag from its IFD.
     /// </summary>
-    internal class ExifTagChange
+    public class ExifTagChange
     {
         public int Tag;
         public short Type;      // 2 = ASCII, 4 = LONG (used for IFD pointers)

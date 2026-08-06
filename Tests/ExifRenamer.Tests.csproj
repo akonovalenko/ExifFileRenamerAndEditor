@@ -1,26 +1,20 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net48</TargetFramework>
-    <LangVersion>7.3</LangVersion>
+    <TargetFrameworks>net48;net6.0-windows;net7.0-windows;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
+    <LangVersion>latest</LangVersion>
     <IsPackable>false</IsPackable>
     <RootNamespace>ExifRenamer.Tests</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MSTest" Version="3.8.3" />
-  </ItemGroup>
-
-  <!-- The main project uses the legacy csproj format which the dotnet CLI cannot build,
-       so the units under test are compiled into the test assembly from source. -->
-  <ItemGroup>
-    <Compile Include="..\Code\JpegExifRewriter.cs" Link="Sources\JpegExifRewriter.cs" />
-    <Compile Include="..\Code\ExifWriterService.cs" Link="Sources\ExifWriterService.cs" />
-    <Compile Include="..\Model\ExifEditValues.cs" Link="Sources\ExifEditValues.cs" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
+    <PackageReference Include="MSTest.TestAdapter" Version="3.0.2" />
+    <PackageReference Include="MSTest.TestFramework" Version="3.0.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="System.Drawing" />
+    <ProjectReference Include="..\ExifRenamer.csproj" />
   </ItemGroup>
 
 </Project>

@@ -26,6 +26,7 @@ namespace ExifFileRenamer
         private ImageInfoExtractorService _imageInfoExtractor;
         private long _currentProcessedCount;
         private int _lastReportedPercent;
+        private int _renameTotalCount;
         private readonly ToolTip _toolTip = new ToolTip();
         #endregion
 
@@ -656,6 +657,18 @@ namespace ExifFileRenamer
 
         private void BuRename_Click(object sender, EventArgs e)
         {
+            // compute number of files that will be renamed and initialize progress
+            int totalToRename = 0;
+            bool skipUnprocessedLocal = chSkipUnprocessed.Checked;
+            foreach (ProcessingFileInfo fi in appState.ImagesFiles)
+            {
+                if ((!fi.IsExifImage && skipUnprocessedLocal) || fi.Status == Constants.NO_CHANGES)
+                    continue;
+                totalToRename++;
+            }
+            _renameTotalCount = totalToRename;
+            this.StatisticsStartProcess(totalToRename, "Renaming files...");
+
             renameBgWorker = new BackgroundWorker();
             renameBgWorker.DoWork += new DoWorkEventHandler(RenameWorkerDoWork);
             renameBgWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(RenameWorkerCompleted);
@@ -683,7 +696,12 @@ namespace ExifFileRenamer
                     System.IO.File.Move(fi.FullName, fi.NewFileFullName);
                     journal.Add(new KeyValuePair<string, string>(fi.FullName, fi.NewFileFullName));
                     fi.Status = "renamed";
-                    renameBgWorker.ReportProgress(count++);
+                    // update in-memory record so UI shows new source name without re-reading the folder
+                    fi.CommitRename();
+                    // increment count of processed files and report percentage with explicit count in UserState
+                    count++;
+                    int percent = _renameTotalCount > 0 ? (count * 100 / _renameTotalCount) : 100;
+                    renameBgWorker.ReportProgress(percent, string.Format("{0}/{1}", count, _renameTotalCount));
                     if (renameBgWorker.CancellationPending)
                         break;
                 }
@@ -710,7 +728,12 @@ namespace ExifFileRenamer
             else if (e.Cancelled)
                 MessageBox.Show("Canceled");
             else
-                BuRefresh_Click(sender, e);
+            {
+                // Do not re-scan the folder; just refresh the grid in-place to reflect committed renames
+                dataGridViewFiles.Refresh();
+                this.DataGridView1_SelectionChanged(dataGridViewFiles, EventArgs.Empty);
+                stlaState.Text = string.Format("Rename: {0} file(s) processed.", _renameTotalCount > 0 ? _renameTotalCount : (appState.ImagesFiles?.Count ?? 0));
+            }
 
             renameBgWorker.Dispose();
             this.StatisticsStopProcess();
@@ -975,7 +998,36 @@ namespace ExifFileRenamer
 
         void UpdateProgressValue(object sender, ProgressChangedEventArgs e)
         {
-            pbTotal.Value = Math.Min(e.ProgressPercentage, pbTotal.Maximum);
+            // Support workers that report percentage (0-100) while pbTotal.Maximum may be a total count.
+            // If maximum is greater than 100, treat ProgressPercentage as percent and scale to maximum.
+            try
+            {
+                if (pbTotal.Maximum > 100)
+                {
+                    // If UserState contains a "count/total" string, prefer the explicit count
+                    if (e.UserState is string s && s.Contains("/"))
+                    {
+                        var parts = s.Split('/');
+                        if (int.TryParse(parts[0], out int count))
+                        {
+                            pbTotal.Value = Math.Min(count, pbTotal.Maximum);
+                            return;
+                        }
+                    }
+
+                    // Otherwise interpret ProgressPercentage as percent (0-100) and map to absolute value
+                    var scaled = (int)((long)e.ProgressPercentage * pbTotal.Maximum / 100L);
+                    pbTotal.Value = Math.Min(Math.Max(scaled, 0), pbTotal.Maximum);
+                }
+                else
+                {
+                    pbTotal.Value = Math.Min(e.ProgressPercentage, pbTotal.Maximum);
+                }
+            }
+            catch
+            {
+                // ignore invalid progress values
+            }
         }
 
         void UpdateImagesCountLabel(object sender, ProgressChangedEventArgs e)
