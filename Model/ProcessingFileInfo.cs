@@ -82,21 +82,26 @@ namespace ExifFileRenamer
             }
         }
 
+        /* Binding field */
+        public bool Selected { get; set; }
+
         #endregion
 
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ProcessingFileInfo"/> class.
+        /// Initializes a new instance of the <see cref="ProcessingFileInfo"/> class with EXIF information and an error message.
         /// </summary>
-        /// <param name="fiFile">The fi file.</param>
-        /// <param name="exif">The file EXIF data</param>
+        /// <param name="fiFile">The file info.</param>
+        /// <param name="exif">The EXIF information.</param>
+        /// <param name="error">The error message.</param>
         public ProcessingFileInfo(FileInfo fiFile, ExifInfo exif, string error) : this(fiFile)
         {
             this._exifInfo = exif;
             this.IsExifImage = true;
             this.Status = "Image with EXIF";
             this.ErrorText = error;
+            this.Selected = true;
         }
 
         /// <summary>
@@ -109,6 +114,7 @@ namespace ExifFileRenamer
             this.IsBitmapImage = true;
             this.Status = "Image non EXIF";
             this.ErrorText = error;
+            this.Selected = true;
         }
 
         /// <summary>
@@ -119,12 +125,18 @@ namespace ExifFileRenamer
         {
             this._sourceFileInfo = new FileSystemInfo(fiFile);
             this.Status = Constants.NOT_RECOGNIZED;
+            // default: do not select files unless they are recognized as images
+            this.Selected = false;
         }
 
         #endregion
 
         #region Object methods
 
+        /// <summary>
+        /// Updates the new name of the file based on the provided name, preserving the original directory and extension.
+        /// </summary>
+        /// <param name="name">The new name for the file.</param>
         public void UpdateName(string name)
         {
             this._newName = this.DirectoryName + Constants.BACK_SLASH_CHAR + name + this.Extension;
@@ -145,6 +157,9 @@ namespace ExifFileRenamer
             this._sourceFileInfo.Extension = System.IO.Path.GetExtension(this._newName);
         }
 
+        /// <summary>
+        /// Sets the default status of the file based on whether it is recognized as an EXIF image, a bitmap image, or neither.
+        /// </summary>
         public void SetDefaultStatus()
         {
             if (this.IsExifImage)

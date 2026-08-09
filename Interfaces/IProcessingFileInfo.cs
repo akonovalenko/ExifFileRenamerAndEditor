@@ -2,9 +2,14 @@
 
 namespace ExifFileRenamer
 {
+    /// <summary>
+    /// Represents information about a file being processed, 
+    /// including its source and target names, status, and any errors encountered during processing.
+    /// </summary>
     internal interface IProcessingFileInfo
     {
         string ErrorText { get; set; }
+        bool Selected { get; set; }
         string ProcessingErrors { get; }
         string SourceFileName { get; }
         string Status { get; }

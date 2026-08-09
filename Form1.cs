@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -36,6 +37,26 @@ namespace ExifFileRenamer
         {
             this.InitializeComponent();
             this.InitializeUserComponents();
+        }
+
+        private void BuSelectAll_Click(object sender, EventArgs e)
+        {
+            if (appState.ImagesFiles == null) return;
+            for (int i = 0; i < appState.ImagesFiles.Count; i++)
+            {
+                appState.ImagesFiles[i].Selected = true;
+            }
+            dataGridViewFiles.Refresh();
+        }
+
+        private void BuDeselectAll_Click(object sender, EventArgs e)
+        {
+            if (appState.ImagesFiles == null) return;
+            for (int i = 0; i < appState.ImagesFiles.Count; i++)
+            {
+                appState.ImagesFiles[i].Selected = false;
+            }
+            dataGridViewFiles.Refresh();
         }
 
         private void InitializeUserComponents()
@@ -106,6 +127,15 @@ namespace ExifFileRenamer
             dataGridViewFiles.RowHeadersVisible = false;
             dataGridViewFiles.ColumnHeadersVisible = true;
 
+            var colSelect = new DataGridViewCheckBoxColumn
+            {
+                DataPropertyName = "Selected",
+                HeaderText = "",
+                Name = "Select",
+                Width = 28,
+                ReadOnly = false
+            };
+
             var colOldName = AddColumn("SourceFileName", "Old file name");
             colOldName.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             colOldName.FillWeight = 35;
@@ -126,6 +156,7 @@ namespace ExifFileRenamer
             colStatus.FillWeight = 10;
             colStatus.MinimumWidth = 80;
 
+            dataGridViewFiles.Columns.Add(colSelect);
             dataGridViewFiles.Columns.Add(colOldName);
             dataGridViewFiles.Columns.Add(colNewName);
             dataGridViewFiles.Columns.Add(colDateTime);
@@ -133,6 +164,13 @@ namespace ExifFileRenamer
 
             dataGridViewFiles.CellToolTipTextNeeded += DataGridViewFiles_CellToolTipTextNeeded;
             dataGridViewFiles.CellFormatting += DataGridViewFiles_CellFormatting;
+            // Make checkbox clicks immediately commit the change so the underlying bound property updates
+            dataGridViewFiles.EditMode = DataGridViewEditMode.EditOnEnter;
+            dataGridViewFiles.CurrentCellDirtyStateChanged += (s, e) =>
+            {
+                if (dataGridViewFiles.CurrentCell is DataGridViewCheckBoxCell)
+                    dataGridViewFiles.CommitEdit(DataGridViewDataErrorContexts.Commit);
+            };
         }
 
         private void DataGridViewFiles_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
@@ -200,7 +238,8 @@ namespace ExifFileRenamer
                 Height = Height,
                 Top = Top,
                 Left = Left,
-                SelectedPath = folderBrowserDialog1.SelectedPath,
+                // prefer the path shown in the UI textbox (laPath) so manual edits are preserved
+                SelectedPath = string.IsNullOrWhiteSpace(laPath.Text) || laPath.Text == "<< no selection >>" ? string.Empty : laPath.Text,
                 FileTypesSelectedIndex = cbFileTypes.SelectedIndex
             };
             this.appState.SaveSettings(settings);
@@ -249,6 +288,15 @@ namespace ExifFileRenamer
             if ((result == DialogResult.OK) || (result == DialogResult.Yes))
             {
                 laPath.Text = folderBrowserDialog1.SelectedPath;
+                // persist the selected path immediately so it becomes the "last browsed folder"
+                try
+                {
+                    SaveSettings();
+                }
+                catch
+                {
+                    // ignore failures to save settings (do not block UI)
+                }
                 this.RunRefreshWorker();
             }
         }
@@ -367,6 +415,12 @@ namespace ExifFileRenamer
             {
                 dataGridViewFiles.DataSource = typeof(List<ProcessingFileInfo>);
                 dataGridViewFiles.DataSource = source;
+                // ensure the checkbox column is editable and shows initial values
+                if (dataGridViewFiles.Columns.Contains("Select"))
+                {
+                    var col = dataGridViewFiles.Columns["Select"] as DataGridViewCheckBoxColumn;
+                    if (col != null) col.ReadOnly = false;
+                }
                 laImagesCount.Text = appState.ImagesFiles.Count.ToString();
                 stlaState.Text = $"{appState.ImagesFiles.Count} files processed in {elapsedSec:0.##} seconds.";
             }));
@@ -591,6 +645,16 @@ namespace ExifFileRenamer
                 return;
             }
 
+            // ensure there are selected items to analyze
+            int selectedCount = 0;
+            foreach (ProcessingFileInfo fi in appState.ImagesFiles)
+                if (fi.Selected) selectedCount++;
+            if (selectedCount == 0)
+            {
+                MessageBox.Show(this, "No files selected for preview. Please select files to analyze.", "Preview", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
             analyzeBgWorker = new BackgroundWorker();
             analyzeBgWorker.DoWork += new DoWorkEventHandler(AnalyzeImages_BgWorker_DoWork);
             analyzeBgWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(BgWorker_RunWorkerCompleted);
@@ -621,25 +685,42 @@ namespace ExifFileRenamer
                 return;
 
             var watch = System.Diagnostics.Stopwatch.StartNew();
-            Invoke(new Action(() => stlaState.Text = "Sorting files."));
+            Invoke(new Action(() => stlaState.Text = "Preparing preview."));
 
-            (appState.ImagesFiles as List<IProcessingFileInfo>).Sort();
-
-            int totalCount = appState.ImagesFiles.Count;
-            Invoke(new Action(() => this.StatisticsStartProcess(totalCount, "Analyzing images info.")));
-
+            // build list of selected items to analyze (do not change UI order)
             bool skipUnprocessed = false;
             Invoke(new Action(() => skipUnprocessed = chSkipUnprocessed.Checked));
 
-            var fileNameFactory = new FileNameFactory();
-            int count = 1;
-
-            for (int i = 0; i < totalCount; i++)
+            var selectedItems = new List<ProcessingFileInfo>();
+            for (int i = 0; i < appState.ImagesFiles.Count; i++)
             {
-                if (!appState.ImagesFiles[i].IsExifImage && skipUnprocessed)
+                var fi = (ProcessingFileInfo)appState.ImagesFiles[i];
+                if (!fi.Selected)
                     continue;
+                if (!fi.IsExifImage && skipUnprocessed)
+                    continue;
+                selectedItems.Add(fi);
+            }
 
-                fileNameFactory.Create(this._fileNameTemplate, appState.ImagesFiles[i], count++);
+            int totalCount = selectedItems.Count;
+            if (totalCount == 0)
+            {
+                watch.Stop();
+                Invoke(new Action(() => stlaState.Text = "Nothing to analyze (no selected items)."));
+                return;
+            }
+
+            // Create a sorted copy for determining sequence numbers, but do not modify appState.ImagesFiles order
+            var orderedForNumbering = selectedItems.ToList();
+            orderedForNumbering.Sort();
+
+            Invoke(new Action(() => this.StatisticsStartProcess(totalCount, "Analyzing selected images info.")));
+
+            var fileNameFactory = new FileNameFactory();
+            for (int i = 0; i < orderedForNumbering.Count; i++)
+            {
+                // Apply naming based on sorted sequence but this does not change grid order
+                fileNameFactory.Create(this._fileNameTemplate, orderedForNumbering[i], i + 1);
                 analyzeBgWorker.ReportProgress(totalCount > 0 ? i * 100 / totalCount : 0);
 
                 if (analyzeBgWorker.CancellationPending)
@@ -648,7 +729,7 @@ namespace ExifFileRenamer
 
             watch.Stop();
             var elapsedSec = watch.Elapsed.TotalSeconds;
-            Invoke(new Action(() => stlaState.Text = $"{totalCount} files processed in {elapsedSec:0.##} seconds."));
+            Invoke(new Action(() => stlaState.Text = $"{totalCount} selected files processed in {elapsedSec:0.##} seconds."));
         }
 
         #endregion
@@ -662,11 +743,27 @@ namespace ExifFileRenamer
             bool skipUnprocessedLocal = chSkipUnprocessed.Checked;
             foreach (ProcessingFileInfo fi in appState.ImagesFiles)
             {
+                // only consider user-selected items for renaming
+                if (!fi.Selected)
+                    continue;
                 if ((!fi.IsExifImage && skipUnprocessedLocal) || fi.Status == Constants.NO_CHANGES)
                     continue;
                 totalToRename++;
             }
             _renameTotalCount = totalToRename;
+            if (_renameTotalCount == 0)
+            {
+                MessageBox.Show(this, "No files selected for renaming.", "Rename", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            // ask user to confirm the number of files to be renamed
+            var confirm = MessageBox.Show(this,
+                string.Format("Rename {0} selected file(s)?", _renameTotalCount),
+                "Confirm Rename", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (confirm != DialogResult.Yes)
+                return;
+
             this.StatisticsStartProcess(totalToRename, "Renaming files...");
 
             renameBgWorker = new BackgroundWorker();
@@ -688,6 +785,9 @@ namespace ExifFileRenamer
             for (int i = 0; i < appState.ImagesFiles.Count; i++)
             {
                 ProcessingFileInfo fi = (ProcessingFileInfo)appState.ImagesFiles[i];
+                // skip items that are not selected by the user
+                if (!fi.Selected)
+                    continue;
                 if ((!fi.IsExifImage && skipUnprocessed) || fi.Status == Constants.NO_CHANGES)
                     continue;
 
