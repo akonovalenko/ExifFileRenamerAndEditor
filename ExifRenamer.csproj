@@ -1,7 +1,7 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net48;net6.0-windows;net7.0-windows;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
+		<TargetFramework>net10.0-windows7.0</TargetFramework>
 		<UseWindowsForms>true</UseWindowsForms>
 		<OutputType>WinExe</OutputType>
 		<RootNamespace>ExifImageRenamer</RootNamespace>
@@ -36,6 +36,7 @@
 		<OutputPath Condition=" '$(OutputPath)' == '' ">bin\$(Configuration)\</OutputPath>
 		<BaseOutputPath Condition=" '$(BaseOutputPath)' == '' ">bin\</BaseOutputPath>
 		<IntermediateOutputPath Condition=" '$(IntermediateOutputPath)' == '' ">obj\$(Configuration)\</IntermediateOutputPath>
+		<UseWPF>False</UseWPF>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -80,9 +81,8 @@
 			<DependentUpon>HelpForm.cs</DependentUpon>
 		</Compile>
 		<Compile Include="Model\ProcessingFileInfo.cs" />
-		<Compile Include="Code\DateTimeNameCorector.cs" />
 		<Compile Include="Program.cs" />
-		<Compile Include="Model\FileSystemInfo.cs" />
+		<Compile Include="Model\SourceFileInfo.cs" />
 		<Compile Include="Properties\Resources.Designer.cs">
 			<AutoGen>True</AutoGen>
 			<DesignTime>True</DesignTime>
@@ -106,8 +106,5 @@
 		<Folder Include="Resources\" />
 	</ItemGroup>
 
-	<ItemGroup>
-		<PackageReference Include="MSTest.TestFramework" Version="3.0.2" />
-	</ItemGroup>
 
 </Project>

@@ -10,7 +10,7 @@ namespace ExifFileRenamer
     /// </summary>
     /// <author>Alexey Konovalenko</created>
     /// <created>28/12/2008</created>
-    /// <version>1.0.0.0</version>
+    /// <version>1.1.1.0</version>
     internal class ImageInfoExtractorService
     {
 
@@ -36,8 +36,6 @@ namespace ExifFileRenamer
                         result.HorizontalResolution = (int)bitmap.HorizontalResolution;
                         result.VerticalResolution = (int)bitmap.VerticalResolution;
                         result.PixelFormat = bitmap.PixelFormat.ToString();
-                        isProcessed = result.OriginalDateTime != default;
-
                         isProcessed = true;
                     }//if
                 }//using

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace ExifImageRenamer.Code
 {
+    /// <summary>
+    /// Singleton class that holds the application state, including the list of image files and settings.
+    /// </summary>
     public sealed class ApplicationState
     {
         #region Private fields
@@ -11,6 +14,7 @@ namespace ExifImageRenamer.Code
         private static ApplicationState _instance;
         private static readonly object _instanceLock = new object();
         private int _fileTypesSelectedIndex;
+        private Settings _settings;
         #endregion
 
         #region Constructors
@@ -20,8 +24,13 @@ namespace ExifImageRenamer.Code
         {
             this._imagesFiles = new List<IProcessingFileInfo>();
             this._settingsProvider = new RegistrySettingsProvider();
+            this._settings = this._settingsProvider.LoadSettings();
         }
 
+        /// <summary>
+        /// Gets the singleton instance of the ApplicationState class.
+        /// </summary>
+        /// <returns>The singleton instance of the ApplicationState class.</returns>
         public static ApplicationState GetInstance()
         {
             if (_instance == null)
@@ -36,7 +45,7 @@ namespace ExifImageRenamer.Code
         }
         #endregion
 
-        #region Public proeprties
+        #region Properties
         internal IList<IProcessingFileInfo> ImagesFiles
         {
             get { 
@@ -49,13 +58,7 @@ namespace ExifImageRenamer.Code
 
         }
 
-        public Settings Settings
-        {
-            get {
-                var settings = this._settingsProvider.LoadSettings(); 
-                return settings;
-            }
-        }
+        public Settings Settings => _settings;
 
         public int FileTypesSelectedIndex { 
             get => _fileTypesSelectedIndex; 
@@ -65,9 +68,15 @@ namespace ExifImageRenamer.Code
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Saves the provided settings using the settings provider and updates the current settings in the application state.
+        /// </summary>
+        /// <param name="settings">The settings to save.</param>
         public void SaveSettings(Settings settings)
         {
             this._settingsProvider.SaveSettings(settings);
+            this._settings = settings;
         }
         #endregion
 

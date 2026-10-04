@@ -1,4 +1,4 @@
-﻿using ExifFileRenamer.Model;
+using ExifFileRenamer.Model;
 using System;
 using System.IO;
 
@@ -9,15 +9,15 @@ namespace ExifFileRenamer
     /// </summary>
     /// <author>Alexey Konovalenko, aldev@ukr.net</author>
     /// <created>created 28-dec-2008</created>
-    /// <version>version 1.0.0.0</version>
-    internal class ProcessingFileInfo : IComparable, IProcessingFileInfo
+    /// <version>version 1.1.1.0</version>
+    internal class ProcessingFileInfo : IComparable<ProcessingFileInfo>, IProcessingFileInfo
     {
 
         #region Private fields
 
         private readonly ExifInfo _exifInfo;
         private readonly ImageInfo _imageInfo;
-        private readonly FileSystemInfo _sourceFileInfo;
+        private readonly SourceFileInfo _sourceFileInfo;
         private string _newName;
 
         #endregion
@@ -95,7 +95,8 @@ namespace ExifFileRenamer
         /// <param name="fiFile">The file info.</param>
         /// <param name="exif">The EXIF information.</param>
         /// <param name="error">The error message.</param>
-        public ProcessingFileInfo(FileInfo fiFile, ExifInfo exif, string error) : this(fiFile)
+        public ProcessingFileInfo(FileInfo fiFile, ExifInfo exif, string error)
+            : this(fiFile)
         {
             this._exifInfo = exif;
             this.IsExifImage = true;
@@ -105,10 +106,13 @@ namespace ExifFileRenamer
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ProcessingFileInfo"/> class.
+        /// Initializes a new instance of the <see cref="ProcessingFileInfo"/> class with bitmap image information and an error message.
         /// </summary>
-        /// <param name="fiFile">The fi file.</param>
-        public ProcessingFileInfo(FileInfo fiFile, ImageInfo imageInfo, string error) : this(fiFile)
+        /// <param name="fiFile">The file info.</param>
+        /// <param name="imageInfo">The bitmap image information.</param>
+        /// <param name="error">The error message.</param>
+        public ProcessingFileInfo(FileInfo fiFile, ImageInfo imageInfo, string error)
+            : this(fiFile)
         {
             this._imageInfo = imageInfo;
             this.IsBitmapImage = true;
@@ -123,7 +127,7 @@ namespace ExifFileRenamer
         /// <param name="fiFile">The fi file.</param>
         public ProcessingFileInfo(FileInfo fiFile)
         {
-            this._sourceFileInfo = new FileSystemInfo(fiFile);
+            this._sourceFileInfo = new SourceFileInfo(fiFile);
             this.Status = Constants.NOT_RECOGNIZED;
             // default: do not select files unless they are recognized as images
             this.Selected = false;
@@ -187,11 +191,10 @@ namespace ExifFileRenamer
         /// <param name="obj">The entity to compare</param>
         /// <returns>0 if enities are equals/returns>
         /// <exception cref="ArgumentException"></exception>
-        public int CompareTo(object obj)
+        public int CompareTo(ProcessingFileInfo other)
         {
-            var other = obj as ProcessingFileInfo;
             if (other == null)
-                throw new ArgumentException("object is not a ProcessingFileInfo");
+                return 1;
 
             var thisDate = (this.IsExifImage && this._exifInfo != null && this._exifInfo.OriginalDateTime != default)
                 ? this._exifInfo.OriginalDateTime
