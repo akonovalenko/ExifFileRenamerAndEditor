@@ -269,7 +269,9 @@ namespace ExifFileRenamer
                             }
 
                         }//foreach
-                        isProcessed = result.OriginalDateTime != default;
+                        // PropertyItems represent EXIF metadata independently of whether
+                        // DateTimeOriginal (or even ModifyDate) is present.
+                        isProcessed = bitmap.PropertyItems.Length > 0;
                     }//if
                 }//using
 

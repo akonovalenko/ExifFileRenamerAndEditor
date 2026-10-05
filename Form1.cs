@@ -28,6 +28,8 @@ namespace ExifFileRenamer
         private long _currentProcessedCount;
         private int _lastReportedPercent;
         private int _renameTotalCount;
+        private int _renameProcessedCount;
+        private int _renameFailedCount;
         private readonly ToolTip _toolTip = new ToolTip();
         #endregion
 
@@ -757,13 +759,33 @@ namespace ExifFileRenamer
                 return;
             }
 
-            // ask user to confirm the number of files to be renamed
+            var renameCandidates = appState.ImagesFiles
+                .OfType<ProcessingFileInfo>()
+                .Where(fi => fi.Selected
+                    && !(skipUnprocessedLocal && !fi.IsExifImage)
+                    && fi.Status != Constants.NO_CHANGES);
+            var conflicts = RenameBatchValidator.FindConflicts(renameCandidates);
+
+            if (conflicts.Count > 0)
+            {
+                var message = "Rename was not started because of file name conflicts:\n\n"
+                    + string.Join(Environment.NewLine, conflicts.Take(10));
+                if (conflicts.Count > 10)
+                    message += string.Format("\n... and {0} more.", conflicts.Count - 10);
+
+                MessageBox.Show(this, message, "Rename conflicts", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // ask user to confirm only after the batch has passed validation
             var confirm = MessageBox.Show(this,
                 string.Format("Rename {0} selected file(s)?", _renameTotalCount),
                 "Confirm Rename", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (confirm != DialogResult.Yes)
                 return;
 
+            _renameProcessedCount = 0;
+            _renameFailedCount = 0;
             this.StatisticsStartProcess(totalToRename, "Renaming files...");
 
             renameBgWorker = new BackgroundWorker();
@@ -775,17 +797,22 @@ namespace ExifFileRenamer
             renameBgWorker.RunWorkerAsync();
         }
 
-        private void RenameFiles()
+        private void RenameFiles(DoWorkEventArgs e)
         {
             bool skipUnprocessed = false;
             Invoke(new Action(() => skipUnprocessed = chSkipUnprocessed.Checked));
 
             var journal = new List<KeyValuePair<string, string>>();
-            int count = 0;
+            bool canceled = false;
             for (int i = 0; i < appState.ImagesFiles.Count; i++)
             {
+                if (renameBgWorker.CancellationPending)
+                {
+                    canceled = true;
+                    break;
+                }
+
                 ProcessingFileInfo fi = (ProcessingFileInfo)appState.ImagesFiles[i];
-                // skip items that are not selected by the user
                 if (!fi.Selected)
                     continue;
                 if ((!fi.IsExifImage && skipUnprocessed) || fi.Status == Constants.NO_CHANGES)
@@ -793,46 +820,60 @@ namespace ExifFileRenamer
 
                 try
                 {
-                    System.IO.File.Move(fi.FullName, fi.NewFileFullName);
+                    File.Move(fi.FullName, fi.NewFileFullName);
                     journal.Add(new KeyValuePair<string, string>(fi.FullName, fi.NewFileFullName));
-                    fi.Status = "renamed";
-                    // update in-memory record so UI shows new source name without re-reading the folder
                     fi.CommitRename();
-                    // increment count of processed files and report percentage with explicit count in UserState
-                    count++;
-                    int percent = _renameTotalCount > 0 ? (count * 100 / _renameTotalCount) : 100;
-                    renameBgWorker.ReportProgress(percent, string.Format("{0}/{1}", count, _renameTotalCount));
-                    if (renameBgWorker.CancellationPending)
-                        break;
+                    fi.Status = "renamed";
+                    _renameProcessedCount++;
                 }
                 catch (Exception ex)
                 {
+                    _renameFailedCount++;
                     fi.Status = ex.Message;
                 }
+
+                int completed = _renameProcessedCount + _renameFailedCount;
+                int percent = _renameTotalCount > 0 ? completed * 100 / _renameTotalCount : 100;
+                renameBgWorker.ReportProgress(percent, string.Format("{0}/{1}", completed, _renameTotalCount));
             }
-            if (journal.Count > 0)
-                _lastRenameBatch = journal;
+
+            _lastRenameBatch = journal.Count > 0 ? journal : null;
+
+            e.Cancel = canceled;
         }
 
         void RenameWorkerDoWork(object sender, DoWorkEventArgs e)
         {
-            RenameFiles();
+            RenameFiles(e);
         }
 
         void RenameWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             undoRenameToolStripMenuItem.Enabled = _lastRenameBatch != null && _lastRenameBatch.Count > 0;
 
+            dataGridViewFiles.Refresh();
+            this.DataGridView1_SelectionChanged(dataGridViewFiles, EventArgs.Empty);
+
             if (e.Error != null)
+            {
                 MessageBox.Show(e.Error.Message);
+            }
             else if (e.Cancelled)
-                MessageBox.Show("Canceled");
+            {
+                stlaState.Text = string.Format("Rename canceled: {0} of {1} file(s) renamed.",
+                    _renameProcessedCount, _renameTotalCount);
+            }
             else
             {
-                // Do not re-scan the folder; just refresh the grid in-place to reflect committed renames
-                dataGridViewFiles.Refresh();
-                this.DataGridView1_SelectionChanged(dataGridViewFiles, EventArgs.Empty);
-                stlaState.Text = string.Format("Rename: {0} file(s) processed.", _renameTotalCount > 0 ? _renameTotalCount : (appState.ImagesFiles?.Count ?? 0));
+                stlaState.Text = string.Format("Rename: {0} of {1} file(s) renamed.",
+                    _renameProcessedCount, _renameTotalCount);
+                if (_renameFailedCount > 0)
+                {
+                    MessageBox.Show(this,
+                        string.Format("{0} of {1} file(s) could not be renamed. See the Status column.",
+                            _renameFailedCount, _renameTotalCount),
+                        "Rename", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
             }
 
             renameBgWorker.Dispose();
@@ -1041,11 +1082,16 @@ namespace ExifFileRenamer
                     {
                         // перечитываем только изменённый файл (в фоне) и подменяем его в списке
                         var updated = this.CreateReloadedFileInfo(target.FullName);
+                        updated.Selected = target.Selected;
+                        updated.SetDefaultStatus();
                         Invoke(new Action(() =>
                         {
                             var index = appState.ImagesFiles.IndexOf(target);
                             if (index >= 0)
+                            {
                                 appState.ImagesFiles[index] = updated;
+                                dataGridViewFiles.Refresh();
+                            }
                         }));
                     }
                     worker.ReportProgress((i + 1) * 100 / targets.Count);

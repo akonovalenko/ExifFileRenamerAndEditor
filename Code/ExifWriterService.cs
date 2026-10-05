@@ -289,7 +289,10 @@ namespace ExifFileRenamer
 
         private static void ReplaceFile(string fileName, Action<string> writeToTemp)
         {
-            var tempFile = fileName + ".exiftmp";
+            var directory = Path.GetDirectoryName(fileName);
+            var fileNameOnly = Path.GetFileName(fileName);
+            var tempFile = Path.Combine(directory ?? string.Empty,
+                "." + fileNameOnly + "." + Guid.NewGuid().ToString("N") + ".exiftmp");
             var creationTime = File.GetCreationTime(fileName);
             try
             {
