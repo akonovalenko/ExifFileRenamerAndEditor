@@ -21,7 +21,7 @@ namespace ExifFileRenamer
         DateTime CreatedOn { get; }
         long SizeInBytes { get; }
         string FullName { get; }
-        
+
         bool IsExifImage { get; }
         bool IsBitmapImage { get; }
     }

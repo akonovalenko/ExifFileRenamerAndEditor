@@ -1,10 +1,9 @@
 using ExifFileRenamer.Model;
-using ExifImageRenamer.Code;
+using ExifImageRenamer.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -92,17 +91,17 @@ namespace ExifFileRenamer
             this.InitializeDataGrid();
 
             // Tooltips
-            _toolTip.SetToolTip(buRefresh,  "Reload file list from the selected folder (Ctrl+R)");
-            _toolTip.SetToolTip(buOpenPath,  "Browse for images folder (Ctrl+O)");
-            _toolTip.SetToolTip(buAnalyze,   "Preview new file names based on current settings (F5)");
-            _toolTip.SetToolTip(buRename,    "Rename files according to preview (F9)");
-            _toolTip.SetToolTip(buEditExif,  "Edit EXIF fields of the selected image and save to file (Ctrl+E)");
-            _toolTip.SetToolTip(buAddExif,   "Add EXIF metadata to files that have none (date from file time, camera, artist...)");
+            _toolTip.SetToolTip(buRefresh, "Reload file list from the selected folder (Ctrl+R)");
+            _toolTip.SetToolTip(buOpenPath, "Browse for images folder (Ctrl+O)");
+            _toolTip.SetToolTip(buAnalyze, "Preview new file names based on current settings (F5)");
+            _toolTip.SetToolTip(buRename, "Rename files according to preview (F9)");
+            _toolTip.SetToolTip(buEditExif, "Edit EXIF fields of the selected image and save to file (Ctrl+E)");
+            _toolTip.SetToolTip(buAddExif, "Add EXIF metadata to files that have none (date from file time, camera, artist...)");
             _toolTip.SetToolTip(buDeleteExif, "Remove ALL EXIF metadata from the selected files");
 
             // Button colors: Refresh = teal, Preview = blue, Rename = green
             buRefresh.FlatStyle = FlatStyle.Flat;
-           // buRefresh.Image = CreateRefreshIcon(Color.White);
+            // buRefresh.Image = CreateRefreshIcon(Color.White);
             buAnalyze.UseVisualStyleBackColor = false;
             buAnalyze.BackColor = Color.FromArgb(0, 120, 215);
             buAnalyze.ForeColor = Color.White;
@@ -458,12 +457,12 @@ namespace ExifFileRenamer
                 var orientation = BitConverter.ToInt16(prop.Value, 0);
                 switch (orientation)
                 {
-                    case 2: bmp.RotateFlip(RotateFlipType.RotateNoneFlipX);   break;
+                    case 2: bmp.RotateFlip(RotateFlipType.RotateNoneFlipX); break;
                     case 3: bmp.RotateFlip(RotateFlipType.Rotate180FlipNone); break;
-                    case 4: bmp.RotateFlip(RotateFlipType.RotateNoneFlipY);   break;
-                    case 5: bmp.RotateFlip(RotateFlipType.Rotate270FlipX);    break;
-                    case 6: bmp.RotateFlip(RotateFlipType.Rotate90FlipNone);  break;
-                    case 7: bmp.RotateFlip(RotateFlipType.Rotate90FlipX);     break;
+                    case 4: bmp.RotateFlip(RotateFlipType.RotateNoneFlipY); break;
+                    case 5: bmp.RotateFlip(RotateFlipType.Rotate270FlipX); break;
+                    case 6: bmp.RotateFlip(RotateFlipType.Rotate90FlipNone); break;
+                    case 7: bmp.RotateFlip(RotateFlipType.Rotate90FlipX); break;
                     case 8: bmp.RotateFlip(RotateFlipType.Rotate270FlipNone); break;
                 }
             }

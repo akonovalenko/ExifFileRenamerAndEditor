@@ -1,7 +1,7 @@
 using ExifFileRenamer;
 using System.Collections.Generic;
 
-namespace ExifImageRenamer.Code
+namespace ExifImageRenamer.Model
 {
     /// <summary>
     /// Singleton class that holds the application state, including the list of image files and settings.
@@ -20,7 +20,7 @@ namespace ExifImageRenamer.Code
         #region Constructors
 
         // The Singleton's constructor should always be private to prevent direct construction calls with the `new` operator.
-        private ApplicationState() 
+        private ApplicationState()
         {
             this._imagesFiles = new List<IProcessingFileInfo>();
             this._settingsProvider = new RegistrySettingsProvider();
@@ -48,21 +48,24 @@ namespace ExifImageRenamer.Code
         #region Properties
         internal IList<IProcessingFileInfo> ImagesFiles
         {
-            get { 
-                return this._imagesFiles; 
+            get
+            {
+                return this._imagesFiles;
             }
 
-            set { 
-                this._imagesFiles = value; 
+            set
+            {
+                this._imagesFiles = value;
             }
 
         }
 
         public Settings Settings => _settings;
 
-        public int FileTypesSelectedIndex { 
-            get => _fileTypesSelectedIndex; 
-            set => _fileTypesSelectedIndex = value; 
+        public int FileTypesSelectedIndex
+        {
+            get => _fileTypesSelectedIndex;
+            set => _fileTypesSelectedIndex = value;
         }
 
         #endregion
@@ -82,4 +85,3 @@ namespace ExifImageRenamer.Code
 
     }
 }
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
