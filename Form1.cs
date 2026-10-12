@@ -338,13 +338,7 @@ namespace ExifFileRenamer
                 if (Array.IndexOf(extFile, fi.Extension.TrimStart('.').ToUpper()) < 0 && extFile[0] != "*.*")
                     return null;
 
-                ProcessingFileInfo fileInfo;
-                if (this._exifInfoExtractor.TryExtractExifInfo(fi.FullName, out ExifInfo exif, out string errorExif))
-                    fileInfo = new ProcessingFileInfo(fi, exif, errorExif);
-                else if (this._imageInfoExtractor.TryExtractImageInfo(fi.FullName, out ImageInfo img, out string errorImage))
-                    fileInfo = new ProcessingFileInfo(fi, img, errorImage);
-                else
-                    fileInfo = new ProcessingFileInfo(fi);
+                var fileInfo = this.CreateFileInfo(fi);
 
                 var count = Interlocked.Increment(ref _currentProcessedCount);
                 if (length > 0)
@@ -596,23 +590,34 @@ namespace ExifFileRenamer
             var index = appState.ImagesFiles.IndexOf(fi);
             if (index < 0) return;
 
-            var updated = this.CreateReloadedFileInfo(fi.FullName);
+            var updated = this.CreateFileInfo(new FileInfo(fi.FullName));
             appState.ImagesFiles[index] = updated;
             dataGridViewFiles.Refresh();
             this.DataGridView1_SelectionChanged(dataGridViewFiles, EventArgs.Empty);
             stlaState.Text = string.Format("EXIF saved: {0}", updated.SourceFileName);
         }
 
-        /// <summary>Re-extracts file info from disk. Thread-safe: extractors are stateless.</summary>
-        private ProcessingFileInfo CreateReloadedFileInfo(string fullName)
+        /// <summary>
+        /// Extracts file metadata consistently for initial loading and after file updates.
+        /// A failed EXIF read is not treated as proof that the file has no EXIF.
+        /// </summary>
+        private ProcessingFileInfo CreateFileInfo(FileInfo fileInfo)
         {
-            var systemFileInfo = new FileInfo(fullName);
-            if (this._exifInfoExtractor.TryExtractExifInfo(fullName, out ExifInfo exif, out string errorExif))
-                return new ProcessingFileInfo(systemFileInfo, exif, errorExif);
-            if (this._imageInfoExtractor.TryExtractImageInfo(fullName, out ImageInfo img, out string errorImage))
-                return new ProcessingFileInfo(systemFileInfo, img, errorImage);
-            return new ProcessingFileInfo(systemFileInfo);
+            if (this._exifInfoExtractor.TryExtractExifInfo(fileInfo.FullName, out ExifInfo exif, out string errorExif))
+                return new ProcessingFileInfo(fileInfo, exif, errorExif);
+
+            if (!string.IsNullOrWhiteSpace(errorExif))
+                return new ProcessingFileInfo(fileInfo)
+                {
+                    ErrorText = $"Unable to read image metadata: {errorExif}"
+                };
+
+            if (this._imageInfoExtractor.TryExtractImageInfo(fileInfo.FullName, out ImageInfo image, out string errorImage))
+                return new ProcessingFileInfo(fileInfo, image, errorImage);
+
+            return new ProcessingFileInfo(fileInfo);
         }
+
 
         #endregion
 
@@ -1080,7 +1085,7 @@ namespace ExifFileRenamer
                     else
                     {
                         // перечитываем только изменённый файл (в фоне) и подменяем его в списке
-                        var updated = this.CreateReloadedFileInfo(target.FullName);
+                        var updated = this.CreateFileInfo(new FileInfo(target.FullName));
                         updated.Selected = target.Selected;
                         updated.SetDefaultStatus();
                         Invoke(new Action(() =>
