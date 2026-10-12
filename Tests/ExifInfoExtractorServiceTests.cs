@@ -34,15 +34,51 @@ namespace ExifRenamer.Tests
 
             var writer = new ExifWriterService();
             Assert.IsTrue(writer.TrySaveExifInfo(file,
-                new Model.ExifEditValues { MakeName = "TestMake", WriteFullTemplate = false }, out string writeError), writeError);
+                new ExifFileRenamer.Model.ExifEditValues { MakeName = "TestMake", WriteFullTemplate = false }, out string writeError), writeError);
 
             var extractor = new ExifInfoExtractorService();
-            var recognized = extractor.TryExtractExifInfo(file, out Model.ExifInfo exif, out string error);
+            var recognized = extractor.TryExtractExifInfo(file, out ExifFileRenamer.Model.ExifInfo exif, out string error);
 
             Assert.IsTrue(recognized, error);
             Assert.IsNotNull(exif);
             Assert.AreEqual("TestMake", exif.MakeName);
             Assert.AreEqual(default(DateTime), exif.OriginalDateTime);
         }
+
+        [TestMethod]
+        public void TryExtractExifInfo_JpegWithoutMetadata_IsNotRecognizedAsExif()
+        {
+            var file = Path.Combine(_testDir, "plain.jpg");
+            using (var bitmap = new Bitmap(20, 20))
+                bitmap.Save(file, ImageFormat.Jpeg);
+
+            var extractor = new ExifInfoExtractorService();
+            var recognized = extractor.TryExtractExifInfo(file, out ExifFileRenamer.Model.ExifInfo exif, out string error);
+
+            Assert.IsFalse(recognized, error);
+            Assert.IsNotNull(exif);
+            Assert.AreEqual(default(DateTime), exif.OriginalDateTime);
+        }
+
+        [TestMethod]
+        public void TryExtractExifInfo_ExifWithDate_ExtractsOriginalDate()
+        {
+            var file = Path.Combine(_testDir, "with-date.jpg");
+            using (var bitmap = new Bitmap(20, 20))
+                bitmap.Save(file, ImageFormat.Jpeg);
+
+            var expected = new DateTime(2024, 6, 15, 10, 20, 30);
+            var writer = new ExifWriterService();
+            Assert.IsTrue(writer.TrySaveExifInfo(file, new ExifFileRenamer.Model.ExifEditValues
+            {
+                OriginalDateTime = expected,
+                WriteFullTemplate = false
+            }, out string writeError), writeError);
+
+            var extractor = new ExifInfoExtractorService();
+            Assert.IsTrue(extractor.TryExtractExifInfo(file, out ExifFileRenamer.Model.ExifInfo exif, out string error), error);
+            Assert.AreEqual(expected, exif.OriginalDateTime);
+        }
+
     }
 }

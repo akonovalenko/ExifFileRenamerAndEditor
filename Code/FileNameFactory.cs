@@ -12,11 +12,14 @@ namespace ExifFileRenamer
 
         #region Public methods
 
-        // Creates a new file name for image nased on EXIF information
-
+        /// <summary>
+        /// Creates the file name for the image file based on the provided template and file information.
+        /// </summary>
+        /// <param name="appFileNameTemplate">The file name template.</param>
+        /// <param name="imageFile">The image file information.</param>
+        /// <param name="fileNumber">The file number.</param>
         public void Create(FileNameTemplateFactory appFileNameTemplate, IProcessingFileInfo imageFile, int fileNumber)
         {
-
             var fileItem = imageFile as ProcessingFileInfo;
             if (fileItem == null)
                 return;
@@ -82,16 +85,35 @@ namespace ExifFileRenamer
 
         #region Private methods
 
-        private string GetFilledByZeroNumber(int i, int totalWidth)
+        /// <summary>
+        /// Gets a number filled with leading zeros to match the specified total width.
+        /// </summary>
+        /// <param name="numToFill">The number to fill.</param>
+        /// <param name="totalWidth">The total width of the resulting string.</param>
+        /// <returns>The number filled with leading zeros.</returns>
+        private string GetFilledByZeroNumber(int numToFill, int totalWidth)
         {
-            return this.GetFilledNumber(i, totalWidth, '0');
+            return this.GetFilledNumber(numToFill, totalWidth, '0');
         }
 
-        private string GetFilledNumber(int i, int totalWidth, char character)
+        /// <summary>
+        /// Gets a number filled with a specified character to match the specified total width.
+        /// </summary>
+        /// <param name="numToFill">The number to fill.</param>
+        /// <param name="totalWidth">The total width of the resulting string.</param>
+        /// <param name="character">The character to use for filling.</param>
+        /// <returns>The number filled with the specified character.</returns>
+        private string GetFilledNumber(int numToFill, int totalWidth, char character)
         {
-            return i.ToString().PadLeft(totalWidth, character);
+            return numToFill.ToString().PadLeft(totalWidth, character);
         }
 
+        /// <summary>
+        /// Creates the EXIF date and time string based on the provided template and image file information.
+        /// </summary>
+        /// <param name="fnTemplate">The file name template.</param>
+        /// <param name="imageFile">The image file information.</param>
+        /// <returns>The EXIF date and time string.</returns>
         private string CreateExifDateTime(FileNameTemplateFactory fnTemplate, IProcessingFileInfo imageFile)
         {
             string dateTime = string.Empty;

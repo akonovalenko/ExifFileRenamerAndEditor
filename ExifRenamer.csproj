@@ -90,6 +90,7 @@
 			<DependentUpon>Resources.resx</DependentUpon>
 		</Compile>
 		<Compile Include="TestFriends.cs" />
+		<EmbeddedResource Include="ExifEditForm.resx" />
 		<EmbeddedResource Include="Form1.resx">
 			<SubType>Designer</SubType>
 			<DependentUpon>Form1.cs</DependentUpon>

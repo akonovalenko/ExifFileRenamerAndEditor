@@ -7,8 +7,18 @@ using System.Text;
 
 namespace ExifFileRenamer
 {
+    /// <summary>
+    /// Service class responsible for extracting EXIF information from image files.
+    /// </summary>
     internal class ExifInfoExtractorService
     {
+        /// <summary>
+        /// Attempts to extract EXIF information from the specified image file.
+        /// </summary>
+        /// <param name="imageFileName">The path to the image file.</param>
+        /// <param name="result">The extracted EXIF information.</param>
+        /// <param name="errors">Any errors that occurred during extraction.</param>
+        /// <returns>True if extraction was successful, otherwise false.</returns>
         public bool TryExtractExifInfo(string imageFileName, out ExifInfo result, out string errors)
         {
             result = new ExifInfo();
@@ -284,6 +294,11 @@ namespace ExifFileRenamer
             return isProcessed;
         }
 
+        /// <summary>
+        /// Parses GPS coordinates in Degrees, Minutes, Seconds (DMS) format from a byte array and converts them to decimal degrees.
+        /// </summary>
+        /// <param name="value">The byte array containing the GPS coordinates in DMS format.</param>
+        /// <returns>The GPS coordinates in decimal degrees.</returns>
         private static double ParseGpsDms(byte[] value)
         {
             var degNum = System.BitConverter.ToUInt32(value, 0);
@@ -298,6 +313,12 @@ namespace ExifFileRenamer
             return deg + min / 60.0 + sec / 3600.0;
         }
 
+        /// <summary>
+        /// Formats GPS coordinates in decimal degrees to a string representation in Degrees, Minutes, Seconds (DMS) format with the specified reference (N/S/E/W).
+        /// </summary>
+        /// <param name="decimalDeg">The GPS coordinates in decimal degrees.</param>
+        /// <param name="reference">The reference (N/S/E/W).</param>
+        /// <returns>The GPS coordinates in DMS format.</returns>
         private static string FormatGps(double decimalDeg, string reference)
         {
             var d = (int)decimalDeg;

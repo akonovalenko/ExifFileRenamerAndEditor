@@ -18,8 +18,8 @@ namespace ExifFileRenamer
     /// </summary>
     internal class ExifWriterService
     {
+        #region Private constants for EXIF tags and types
         private const short EXIF_TYPE_ASCII = 2;
-
         private const int TAG_DESCRIPTION = 270;
         private const int TAG_MAKE = 271;
         private const int TAG_MODEL = 272;
@@ -45,6 +45,15 @@ namespace ExifFileRenamer
         private const string TEMPLATE_SOFTWARE = "EXIF Image Renamer and Editor";
         private static readonly byte[] ExifVersion0232 = { (byte)'0', (byte)'2', (byte)'3', (byte)'2' };
 
+        #endregion
+
+        /// <summary>
+        /// Saves the editable EXIF fields to the file. JPEG: lossless (the APP1 segment is rewritten, image data untouched); other formats: re-saved with property items.
+        /// </summary>
+        /// <param name="imageFileName">The path to the image file.</param>
+        /// <param name="values">The EXIF values to save.</param>
+        /// <param name="errors">Any errors that occurred during saving.</param>
+        /// <returns>True if saving was successful, otherwise false.</returns>
         public bool TrySaveExifInfo(string imageFileName, ExifEditValues values, out string errors)
         {
             errors = default;
@@ -103,6 +112,12 @@ namespace ExifFileRenamer
 
         #region JPEG lossless path
 
+        /// <summary>
+        /// Saves the editable EXIF fields to a JPEG file using lossless rewriting of the APP1 segment. 
+        /// The pixel data is untouched. If any error occurs during saving, the original file remains intact.
+        /// </summary>
+        /// <param name="fileName">The path to the JPEG file.</param>
+        /// <param name="values">The EXIF values to save.</param>
         private static void SaveJpegLossless(string fileName, ExifEditValues values)
         {
             var ifd0Changes = new List<ExifTagChange>();
@@ -173,6 +188,13 @@ namespace ExifFileRenamer
 
         #region GDI+ path (non-JPEG formats)
 
+        /// <summary>
+        /// Saves the editable EXIF fields to a non-JPEG image file using GDI+. 
+        /// The image is loaded into memory, modified, and then saved back to the original file. 
+        /// If any error occurs during saving, the original file remains intact.
+        /// </summary>
+        /// <param name="fileName">The path to the image file.</param>
+        /// <param name="values">The EXIF values to save.</param>
         private static void SaveWithGdiPlus(string fileName, ExifEditValues values)
         {
             // Load from memory so the source file stays unlocked and can be replaced.
@@ -202,6 +224,13 @@ namespace ExifFileRenamer
             }
         }
 
+        /// <summary>
+        /// Applies an ASCII EXIF tag to the image. If the value is null, the tag is not modified. 
+        /// If the value is an empty string, the tag is removed. Otherwise, the tag is set to the provided value.
+        /// </summary>
+        /// <param name="image">The image to modify.</param>
+        /// <param name="tagId">The ID of the EXIF tag to apply.</param>
+        /// <param name="value">The value to set for the tag.</param>
         private static void ApplyAsciiTag(Image image, int tagId, string value)
         {
             if (value == null)
@@ -223,6 +252,10 @@ namespace ExifFileRenamer
             image.SetPropertyItem(item);
         }
 
+        /// <summary>
+        /// Adds the standard EXIF tags with default values for tags not already set by the
+        /// </summary>
+        /// <param name="image">The image to modify.</param>
         private static void AppendGdiTemplate(Image image)
         {
             void AddIfMissing(int id, short type, byte[] data)
@@ -245,6 +278,13 @@ namespace ExifFileRenamer
             AddIfMissing(TAG_COLOR_SPACE, EXIF_TYPE_SHORT, ShortBytes(1));
         }
 
+        /// <summary>
+        /// Applies a raw EXIF tag to the image with the specified ID, type, and data.
+        /// </summary>
+        /// <param name="image">The image to modify.</param>
+        /// <param name="tagId">The ID of the EXIF tag to apply.</param>
+        /// <param name="type">The type of the EXIF tag.</param>
+        /// <param name="data">The data for the EXIF tag.</param>
         private static void ApplyRawTag(Image image, int tagId, short type, byte[] data)
         {
             var item = CreatePropertyItem();
@@ -255,16 +295,34 @@ namespace ExifFileRenamer
             image.SetPropertyItem(item);
         }
 
+        /// <summary>
+        /// Converts a string to a null-terminated ASCII byte array for EXIF storage. 
+        /// If the input string is null, it returns an empty string with a null terminator.
+        /// </summary>
+        /// <param name="value">The string to convert.</param>
+        /// <returns>The null-terminated ASCII byte array.</returns>
         private static byte[] AsciiBytes(string value)
         {
             return Encoding.UTF8.GetBytes((value ?? string.Empty) + "\0");
         }
 
+        /// <summary>
+        /// Converts a ushort value to a byte array in little-endian format for EXIF storage.
+        /// </summary>
+        /// <param name="value">The ushort value to convert.</param>
+        /// <returns>The byte array in little-endian format.</returns>
         private static byte[] ShortBytes(ushort value)
         {
             return new[] { (byte)(value & 0xFF), (byte)(value >> 8) };
         }
 
+        /// <summary>
+        /// Converts a numerator and denominator to a byte array representing a rational number 
+        /// in little-endian format for EXIF storage.
+        /// </summary>
+        /// <param name="numerator">The numerator of the rational number.</param>
+        /// <param name="denominator">The denominator of the rational number.</param>
+        /// <returns>The byte array representing the rational number.</returns>
         private static byte[] RationalBytes(uint numerator, uint denominator)
         {
             return new[]
@@ -274,6 +332,10 @@ namespace ExifFileRenamer
             };
         }
 
+        /// <summary>
+        /// Creates an uninitialized PropertyItem instance using FormatterServices.
+        /// </summary>
+        /// <returns>The uninitialized PropertyItem instance.</returns>
         private static PropertyItem CreatePropertyItem()
         {
             // PropertyItem has no public constructor
@@ -282,11 +344,21 @@ namespace ExifFileRenamer
 
         #endregion
 
+        /// <summary>
+        /// Formats a DateTime value into the EXIF date string format "yyyy:MM:dd HH:mm:ss".
+        /// </summary>
+        /// <param name="value">The DateTime value to format.</param>
+        /// <returns>The formatted EXIF date string.</returns>
         private static string FormatExifDate(DateTime value)
         {
             return value.ToString("yyyy:MM:dd HH:mm:ss", CultureInfo.InvariantCulture);
         }
 
+        /// <summary>
+        /// Replaces the original file with a temporary file atomically. The original file remains intact if any error occurs during the writing process.
+        /// </summary>
+        /// <param name="fileName">The path to the original file.</param>
+        /// <param name="writeToTemp">A delegate that writes the temporary file.</param>
         private static void ReplaceFile(string fileName, Action<string> writeToTemp)
         {
             var directory = Path.GetDirectoryName(fileName);

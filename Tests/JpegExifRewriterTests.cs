@@ -114,5 +114,25 @@ namespace ExifRenamer.Tests
             Assert.AreEqual("Alex", tags[TAG_ARTIST]);
             Assert.AreEqual("2024:06:15 10:20:30", tags[TAG_DATETIME_ORIGINAL]);
         }
+
+        [TestMethod]
+        public void ApplyExif_TruncatedSegmentLength_Throws()
+        {
+            // SOI followed by APP0 declaring a segment larger than the available buffer.
+            var truncated = new byte[] { 0xFF, 0xD8, 0xFF, 0xE0, 0x00, 0x10, 0x01, 0x02 };
+
+            Assert.ThrowsException<InvalidOperationException>(
+                () => JpegExifRewriter.ApplyExif(truncated,
+                    Changes(ExifTagChange.Text(TAG_MAKE, "X")), NoChanges()));
+        }
+
+        [TestMethod]
+        public void RemoveExif_TruncatedSegmentLength_Throws()
+        {
+            var truncated = new byte[] { 0xFF, 0xD8, 0xFF, 0xE1, 0x00, 0x10, 0x45, 0x78 };
+
+            Assert.ThrowsException<InvalidOperationException>(() => JpegExifRewriter.RemoveExif(truncated));
+        }
+
     }
 }

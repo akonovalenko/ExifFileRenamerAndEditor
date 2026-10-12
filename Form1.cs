@@ -1096,7 +1096,8 @@ namespace ExifFileRenamer
                     }
                     worker.ReportProgress((i + 1) * 100 / targets.Count);
                 }
-                e.Result = failed;
+                if (!e.Cancel)
+                    e.Result = failed;
             };
 
             worker.RunWorkerCompleted += (s, e) =>
@@ -1112,7 +1113,11 @@ namespace ExifFileRenamer
                 {
                     MessageBox.Show(e.Error.Message);
                 }
-                else if (!e.Cancelled && e.Result is int failed && failed > 0)
+                else if (e.Cancelled)
+                {
+                    stlaState.Text = string.Format("{0}: canceled.", operationName);
+                }
+                else if (e.Result is int failed && failed > 0)
                 {
                     stlaState.Text = string.Format("{0}: {1} of {2} file(s) failed.", operationName, failed, targets.Count);
                     MessageBox.Show(this,

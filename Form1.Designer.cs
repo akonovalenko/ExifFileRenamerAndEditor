@@ -29,887 +29,863 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.laImagesCount = new System.Windows.Forms.ToolStripStatusLabel();
-            this.pbTotal = new System.Windows.Forms.ToolStripProgressBar();
-            this.buCancelProcess = new System.Windows.Forms.ToolStripDropDownButton();
-            this.stlaState = new System.Windows.Forms.ToolStripStatusLabel();
-            this.fontDialog1 = new System.Windows.Forms.FontDialog();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.browseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.refreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.previewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.renameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.undoRenameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparatorExif = new System.Windows.Forms.ToolStripSeparator();
-            this.editExifToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.shiftDatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.addExifToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.removeExifToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.aboutProgramToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.panelControls = new System.Windows.Forms.Panel();
-            this.gbActions = new System.Windows.Forms.GroupBox();
-            this.chSkipUnprocessed = new System.Windows.Forms.CheckBox();
-            this.buRename = new System.Windows.Forms.Button();
-            this.buAnalyze = new System.Windows.Forms.Button();
-            this.edFileNameTemplateSample = new System.Windows.Forms.TextBox();
-            this.laExample = new System.Windows.Forms.Label();
-            this.gbFileNamePattern = new System.Windows.Forms.GroupBox();
-            this.chUseSoftwareName = new System.Windows.Forms.CheckBox();
-            this.chImageFilePrefix = new System.Windows.Forms.CheckBox();
-            this.chUseImageSize = new System.Windows.Forms.CheckBox();
-            this.chImageOrientation = new System.Windows.Forms.CheckBox();
-            this.chUseCameraName = new System.Windows.Forms.CheckBox();
-            this.chSuffixDelimiter = new System.Windows.Forms.CheckBox();
-            this.chCounter = new System.Windows.Forms.CheckBox();
-            this.chDateTimePrefix = new System.Windows.Forms.CheckBox();
-            this.edCounterSuffix = new System.Windows.Forms.TextBox();
-            this.edFilePrefix = new System.Windows.Forms.TextBox();
-            this.cbDateTimeStampFormat = new System.Windows.Forms.ComboBox();
-            this.edSuffixDelimiter = new System.Windows.Forms.TextBox();
-            this.gbImagesDirectory = new System.Windows.Forms.GroupBox();
-            this.chIncludeSubdirectories = new System.Windows.Forms.CheckBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.cbFileTypes = new System.Windows.Forms.ComboBox();
-            this.laPath = new System.Windows.Forms.TextBox();
-            this.buOpenPath = new System.Windows.Forms.Button();
-            this.buRefresh = new System.Windows.Forms.Button();
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.gbFileslist = new System.Windows.Forms.GroupBox();
-            this.dataGridViewFiles = new System.Windows.Forms.DataGridView();
-            this.gbViewImage = new System.Windows.Forms.GroupBox();
-            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.lbFileInfo = new System.Windows.Forms.ListBox();
-            this.paExifButtons = new System.Windows.Forms.TableLayoutPanel();
-            this.buEditExif = new System.Windows.Forms.Button();
-            this.buAddExif = new System.Windows.Forms.Button();
-            this.buDeleteExif = new System.Windows.Forms.Button();
-            this.statusStrip1.SuspendLayout();
-            this.menuStrip1.SuspendLayout();
-            this.panelControls.SuspendLayout();
-            this.gbActions.SuspendLayout();
-            this.gbFileNamePattern.SuspendLayout();
-            this.gbImagesDirectory.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
-            this.splitContainer1.Panel1.SuspendLayout();
-            this.splitContainer1.Panel2.SuspendLayout();
-            this.splitContainer1.SuspendLayout();
-            this.gbFileslist.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewFiles)).BeginInit();
-            this.gbViewImage.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
-            this.splitContainer2.Panel1.SuspendLayout();
-            this.splitContainer2.Panel2.SuspendLayout();
-            this.splitContainer2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.paExifButtons.SuspendLayout();
-            this.SuspendLayout();
+            folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            statusStrip1 = new System.Windows.Forms.StatusStrip();
+            toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            laImagesCount = new System.Windows.Forms.ToolStripStatusLabel();
+            pbTotal = new System.Windows.Forms.ToolStripProgressBar();
+            buCancelProcess = new System.Windows.Forms.ToolStripDropDownButton();
+            stlaState = new System.Windows.Forms.ToolStripStatusLabel();
+            fontDialog1 = new System.Windows.Forms.FontDialog();
+            menuStrip1 = new System.Windows.Forms.MenuStrip();
+            fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            browseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            refreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            previewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            renameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            undoRenameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            toolStripSeparatorExif = new System.Windows.Forms.ToolStripSeparator();
+            editExifToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            shiftDatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            addExifToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            removeExifToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            aboutProgramToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            panelControls = new System.Windows.Forms.Panel();
+            gbActions = new System.Windows.Forms.GroupBox();
+            chSkipUnprocessed = new System.Windows.Forms.CheckBox();
+            buRename = new System.Windows.Forms.Button();
+            buAnalyze = new System.Windows.Forms.Button();
+            edFileNameTemplateSample = new System.Windows.Forms.TextBox();
+            laExample = new System.Windows.Forms.Label();
+            gbFileNamePattern = new System.Windows.Forms.GroupBox();
+            chUseSoftwareName = new System.Windows.Forms.CheckBox();
+            chImageFilePrefix = new System.Windows.Forms.CheckBox();
+            chUseImageSize = new System.Windows.Forms.CheckBox();
+            chImageOrientation = new System.Windows.Forms.CheckBox();
+            chUseCameraName = new System.Windows.Forms.CheckBox();
+            chSuffixDelimiter = new System.Windows.Forms.CheckBox();
+            chCounter = new System.Windows.Forms.CheckBox();
+            chDateTimePrefix = new System.Windows.Forms.CheckBox();
+            edCounterSuffix = new System.Windows.Forms.TextBox();
+            edFilePrefix = new System.Windows.Forms.TextBox();
+            cbDateTimeStampFormat = new System.Windows.Forms.ComboBox();
+            edSuffixDelimiter = new System.Windows.Forms.TextBox();
+            gbImagesDirectory = new System.Windows.Forms.GroupBox();
+            chIncludeSubdirectories = new System.Windows.Forms.CheckBox();
+            label1 = new System.Windows.Forms.Label();
+            cbFileTypes = new System.Windows.Forms.ComboBox();
+            laPath = new System.Windows.Forms.TextBox();
+            buOpenPath = new System.Windows.Forms.Button();
+            buRefresh = new System.Windows.Forms.Button();
+            splitContainer1 = new System.Windows.Forms.SplitContainer();
+            gbFileslist = new System.Windows.Forms.GroupBox();
+            dataGridViewFiles = new System.Windows.Forms.DataGridView();
+            panelSelectButtons = new System.Windows.Forms.Panel();
+            buSelectAll = new System.Windows.Forms.Button();
+            buDeselectAll = new System.Windows.Forms.Button();
+            gbViewImage = new System.Windows.Forms.GroupBox();
+            splitContainer2 = new System.Windows.Forms.SplitContainer();
+            pictureBox1 = new System.Windows.Forms.PictureBox();
+            lbFileInfo = new System.Windows.Forms.ListBox();
+            paExifButtons = new System.Windows.Forms.TableLayoutPanel();
+            buEditExif = new System.Windows.Forms.Button();
+            buAddExif = new System.Windows.Forms.Button();
+            buDeleteExif = new System.Windows.Forms.Button();
+            statusStrip1.SuspendLayout();
+            menuStrip1.SuspendLayout();
+            panelControls.SuspendLayout();
+            gbActions.SuspendLayout();
+            gbFileNamePattern.SuspendLayout();
+            gbImagesDirectory.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
+            splitContainer1.Panel1.SuspendLayout();
+            splitContainer1.Panel2.SuspendLayout();
+            splitContainer1.SuspendLayout();
+            gbFileslist.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewFiles).BeginInit();
+            panelSelectButtons.SuspendLayout();
+            gbViewImage.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)splitContainer2).BeginInit();
+            splitContainer2.Panel1.SuspendLayout();
+            splitContainer2.Panel2.SuspendLayout();
+            splitContainer2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            paExifButtons.SuspendLayout();
+            SuspendLayout();
             // 
             // folderBrowserDialog1
             // 
-            this.folderBrowserDialog1.RootFolder = System.Environment.SpecialFolder.MyComputer;
+            folderBrowserDialog1.RootFolder = System.Environment.SpecialFolder.MyComputer;
             // 
             // statusStrip1
             // 
-            this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel1,
-            this.laImagesCount,
-            this.pbTotal,
-            this.buCancelProcess,
-            this.stlaState});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 545);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 19, 0);
-            this.statusStrip1.Size = new System.Drawing.Size(864, 26);
-            this.statusStrip1.TabIndex = 10;
-            this.statusStrip1.Text = "statusStrip1";
+            statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { toolStripStatusLabel1, laImagesCount, pbTotal, buCancelProcess, stlaState });
+            statusStrip1.Location = new System.Drawing.Point(0, 684);
+            statusStrip1.Name = "statusStrip1";
+            statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 19, 0);
+            statusStrip1.Size = new System.Drawing.Size(864, 30);
+            statusStrip1.TabIndex = 10;
+            statusStrip1.Text = "statusStrip1";
             // 
             // toolStripStatusLabel1
             // 
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(98, 20);
-            this.toolStripStatusLabel1.Text = "Images count";
+            toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            toolStripStatusLabel1.Size = new System.Drawing.Size(98, 24);
+            toolStripStatusLabel1.Text = "Images count";
             // 
             // laImagesCount
             // 
-            this.laImagesCount.Name = "laImagesCount";
-            this.laImagesCount.Size = new System.Drawing.Size(17, 20);
-            this.laImagesCount.Text = "0";
+            laImagesCount.Name = "laImagesCount";
+            laImagesCount.Size = new System.Drawing.Size(17, 24);
+            laImagesCount.Text = "0";
             // 
             // pbTotal
             // 
-            this.pbTotal.Name = "pbTotal";
-            this.pbTotal.Size = new System.Drawing.Size(400, 18);
-            this.pbTotal.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            pbTotal.Name = "pbTotal";
+            pbTotal.Size = new System.Drawing.Size(400, 22);
+            pbTotal.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             // 
             // buCancelProcess
             // 
-            this.buCancelProcess.AutoSize = false;
-            this.buCancelProcess.Image = ((System.Drawing.Image)(resources.GetObject("buCancelProcess.Image")));
-            this.buCancelProcess.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.buCancelProcess.Name = "buCancelProcess";
-            this.buCancelProcess.Padding = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.buCancelProcess.ShowDropDownArrow = false;
-            this.buCancelProcess.Size = new System.Drawing.Size(84, 24);
-            this.buCancelProcess.Text = "Cancel";
-            this.buCancelProcess.ToolTipText = "Cancel current operation";
-            this.buCancelProcess.Click += new System.EventHandler(this.ToolStripDropDownButton1_Click);
+            buCancelProcess.AutoSize = false;
+            buCancelProcess.Image = (System.Drawing.Image)resources.GetObject("buCancelProcess.Image");
+            buCancelProcess.ImageTransparentColor = System.Drawing.Color.Magenta;
+            buCancelProcess.Name = "buCancelProcess";
+            buCancelProcess.Padding = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            buCancelProcess.ShowDropDownArrow = false;
+            buCancelProcess.Size = new System.Drawing.Size(84, 28);
+            buCancelProcess.Text = "Cancel";
+            buCancelProcess.ToolTipText = "Cancel current operation";
+            buCancelProcess.Click += ToolStripDropDownButton1_Click;
             // 
             // stlaState
             // 
-            this.stlaState.Name = "stlaState";
-            this.stlaState.Size = new System.Drawing.Size(0, 20);
+            stlaState.Name = "stlaState";
+            stlaState.Size = new System.Drawing.Size(0, 24);
             // 
             // menuStrip1
             // 
-            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem,
-            this.editToolStripMenuItem,
-            this.helpToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(864, 30);
-            this.menuStrip1.TabIndex = 1;
-            this.menuStrip1.Text = "menuStrip1";
+            menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { fileToolStripMenuItem, editToolStripMenuItem, helpToolStripMenuItem });
+            menuStrip1.Location = new System.Drawing.Point(0, 0);
+            menuStrip1.Name = "menuStrip1";
+            menuStrip1.Size = new System.Drawing.Size(864, 28);
+            menuStrip1.TabIndex = 1;
+            menuStrip1.Text = "menuStrip1";
             // 
             // fileToolStripMenuItem
             // 
-            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.browseToolStripMenuItem,
-            this.closeToolStripMenuItem});
-            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
-            this.fileToolStripMenuItem.Text = "File";
+            fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { browseToolStripMenuItem, closeToolStripMenuItem });
+            fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
+            fileToolStripMenuItem.Text = "File";
             // 
             // browseToolStripMenuItem
             // 
-            this.browseToolStripMenuItem.Name = "browseToolStripMenuItem";
-            this.browseToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.browseToolStripMenuItem.Size = new System.Drawing.Size(193, 26);
-            this.browseToolStripMenuItem.Text = "Browse";
-            this.browseToolStripMenuItem.Click += new System.EventHandler(this.BuOpenPath_Click);
+            browseToolStripMenuItem.Name = "browseToolStripMenuItem";
+            browseToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O;
+            browseToolStripMenuItem.Size = new System.Drawing.Size(193, 26);
+            browseToolStripMenuItem.Text = "Browse";
+            browseToolStripMenuItem.Click += BuOpenPath_Click;
             // 
             // closeToolStripMenuItem
             // 
-            this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            this.closeToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-            this.closeToolStripMenuItem.Size = new System.Drawing.Size(193, 26);
-            this.closeToolStripMenuItem.Text = "Close";
-            this.closeToolStripMenuItem.Click += new System.EventHandler(this.CloseToolStripMenuItem_Click);
+            closeToolStripMenuItem.Name = "closeToolStripMenuItem";
+            closeToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4;
+            closeToolStripMenuItem.Size = new System.Drawing.Size(193, 26);
+            closeToolStripMenuItem.Text = "Close";
+            closeToolStripMenuItem.Click += CloseToolStripMenuItem_Click;
             // 
             // editToolStripMenuItem
             // 
-            this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.refreshToolStripMenuItem,
-            this.previewToolStripMenuItem,
-            this.renameToolStripMenuItem,
-            this.undoRenameToolStripMenuItem,
-            this.toolStripSeparatorExif,
-            this.editExifToolStripMenuItem,
-            this.shiftDatesToolStripMenuItem,
-            this.addExifToolStripMenuItem,
-            this.removeExifToolStripMenuItem});
-            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(49, 26);
-            this.editToolStripMenuItem.Text = "Edit";
+            editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { refreshToolStripMenuItem, previewToolStripMenuItem, renameToolStripMenuItem, undoRenameToolStripMenuItem, toolStripSeparatorExif, editExifToolStripMenuItem, shiftDatesToolStripMenuItem, addExifToolStripMenuItem, removeExifToolStripMenuItem });
+            editToolStripMenuItem.Name = "editToolStripMenuItem";
+            editToolStripMenuItem.Size = new System.Drawing.Size(49, 24);
+            editToolStripMenuItem.Text = "Edit";
             // 
             // refreshToolStripMenuItem
             // 
-            this.refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
-            this.refreshToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
-            this.refreshToolStripMenuItem.Size = new System.Drawing.Size(267, 26);
-            this.refreshToolStripMenuItem.Text = "Refresh";
-            this.refreshToolStripMenuItem.Click += new System.EventHandler(this.BuRefresh_Click);
+            refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
+            refreshToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R;
+            refreshToolStripMenuItem.Size = new System.Drawing.Size(267, 26);
+            refreshToolStripMenuItem.Text = "Refresh";
+            refreshToolStripMenuItem.Click += BuRefresh_Click;
             // 
             // previewToolStripMenuItem
             // 
-            this.previewToolStripMenuItem.Name = "previewToolStripMenuItem";
-            this.previewToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
-            this.previewToolStripMenuItem.Size = new System.Drawing.Size(267, 26);
-            this.previewToolStripMenuItem.Text = "Preview";
-            this.previewToolStripMenuItem.Click += new System.EventHandler(this.BuAnalyze_Click);
+            previewToolStripMenuItem.Name = "previewToolStripMenuItem";
+            previewToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
+            previewToolStripMenuItem.Size = new System.Drawing.Size(267, 26);
+            previewToolStripMenuItem.Text = "Preview";
+            previewToolStripMenuItem.Click += BuAnalyze_Click;
             // 
             // renameToolStripMenuItem
             // 
-            this.renameToolStripMenuItem.Name = "renameToolStripMenuItem";
-            this.renameToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F9;
-            this.renameToolStripMenuItem.Size = new System.Drawing.Size(267, 26);
-            this.renameToolStripMenuItem.Text = "Rename";
-            this.renameToolStripMenuItem.Click += new System.EventHandler(this.BuRename_Click);
+            renameToolStripMenuItem.Name = "renameToolStripMenuItem";
+            renameToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F9;
+            renameToolStripMenuItem.Size = new System.Drawing.Size(267, 26);
+            renameToolStripMenuItem.Text = "Rename";
+            renameToolStripMenuItem.Click += BuRename_Click;
             // 
             // undoRenameToolStripMenuItem
             // 
-            this.undoRenameToolStripMenuItem.Enabled = false;
-            this.undoRenameToolStripMenuItem.Name = "undoRenameToolStripMenuItem";
-            this.undoRenameToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-            this.undoRenameToolStripMenuItem.Size = new System.Drawing.Size(267, 26);
-            this.undoRenameToolStripMenuItem.Text = "Undo Last Rename";
-            this.undoRenameToolStripMenuItem.Click += new System.EventHandler(this.UndoRenameToolStripMenuItem_Click);
+            undoRenameToolStripMenuItem.Enabled = false;
+            undoRenameToolStripMenuItem.Name = "undoRenameToolStripMenuItem";
+            undoRenameToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z;
+            undoRenameToolStripMenuItem.Size = new System.Drawing.Size(267, 26);
+            undoRenameToolStripMenuItem.Text = "Undo Last Rename";
+            undoRenameToolStripMenuItem.Click += UndoRenameToolStripMenuItem_Click;
             // 
             // toolStripSeparatorExif
             // 
-            this.toolStripSeparatorExif.Name = "toolStripSeparatorExif";
-            this.toolStripSeparatorExif.Size = new System.Drawing.Size(264, 6);
+            toolStripSeparatorExif.Name = "toolStripSeparatorExif";
+            toolStripSeparatorExif.Size = new System.Drawing.Size(264, 6);
             // 
             // editExifToolStripMenuItem
             // 
-            this.editExifToolStripMenuItem.Enabled = false;
-            this.editExifToolStripMenuItem.Name = "editExifToolStripMenuItem";
-            this.editExifToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
-            this.editExifToolStripMenuItem.Size = new System.Drawing.Size(267, 26);
-            this.editExifToolStripMenuItem.Text = "Edit EXIF...";
-            this.editExifToolStripMenuItem.Click += new System.EventHandler(this.BuEditExif_Click);
+            editExifToolStripMenuItem.Enabled = false;
+            editExifToolStripMenuItem.Name = "editExifToolStripMenuItem";
+            editExifToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E;
+            editExifToolStripMenuItem.Size = new System.Drawing.Size(267, 26);
+            editExifToolStripMenuItem.Text = "Edit EXIF...";
+            editExifToolStripMenuItem.Click += BuEditExif_Click;
             // 
             // shiftDatesToolStripMenuItem
             // 
-            this.shiftDatesToolStripMenuItem.Name = "shiftDatesToolStripMenuItem";
-            this.shiftDatesToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.T)));
-            this.shiftDatesToolStripMenuItem.Size = new System.Drawing.Size(267, 26);
-            this.shiftDatesToolStripMenuItem.Text = "Shift Dates...";
-            this.shiftDatesToolStripMenuItem.Click += new System.EventHandler(this.ShiftDatesToolStripMenuItem_Click);
+            shiftDatesToolStripMenuItem.Name = "shiftDatesToolStripMenuItem";
+            shiftDatesToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.T;
+            shiftDatesToolStripMenuItem.Size = new System.Drawing.Size(267, 26);
+            shiftDatesToolStripMenuItem.Text = "Shift Dates...";
+            shiftDatesToolStripMenuItem.Click += ShiftDatesToolStripMenuItem_Click;
             // 
             // addExifToolStripMenuItem
             // 
-            this.addExifToolStripMenuItem.Name = "addExifToolStripMenuItem";
-            this.addExifToolStripMenuItem.Size = new System.Drawing.Size(267, 26);
-            this.addExifToolStripMenuItem.Text = "Add EXIF to Files...";
-            this.addExifToolStripMenuItem.Click += new System.EventHandler(this.AddExifToolStripMenuItem_Click);
+            addExifToolStripMenuItem.Name = "addExifToolStripMenuItem";
+            addExifToolStripMenuItem.Size = new System.Drawing.Size(267, 26);
+            addExifToolStripMenuItem.Text = "Add EXIF to Files...";
+            addExifToolStripMenuItem.Click += AddExifToolStripMenuItem_Click;
             // 
             // removeExifToolStripMenuItem
             // 
-            this.removeExifToolStripMenuItem.Name = "removeExifToolStripMenuItem";
-            this.removeExifToolStripMenuItem.Size = new System.Drawing.Size(267, 26);
-            this.removeExifToolStripMenuItem.Text = "Remove EXIF...";
-            this.removeExifToolStripMenuItem.Click += new System.EventHandler(this.RemoveExifToolStripMenuItem_Click);
+            removeExifToolStripMenuItem.Name = "removeExifToolStripMenuItem";
+            removeExifToolStripMenuItem.Size = new System.Drawing.Size(267, 26);
+            removeExifToolStripMenuItem.Text = "Remove EXIF...";
+            removeExifToolStripMenuItem.Click += RemoveExifToolStripMenuItem_Click;
             // 
             // helpToolStripMenuItem
             // 
-            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.aboutToolStripMenuItem,
-            this.aboutProgramToolStripMenuItem});
-            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(55, 26);
-            this.helpToolStripMenuItem.Text = "Help";
+            helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { aboutToolStripMenuItem, aboutProgramToolStripMenuItem });
+            helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            helpToolStripMenuItem.Size = new System.Drawing.Size(55, 24);
+            helpToolStripMenuItem.Text = "Help";
             // 
             // aboutToolStripMenuItem
             // 
-            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F1;
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(157, 26);
-            this.aboutToolStripMenuItem.Text = "Help...";
-            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.HelpToolStripMenuItem_Click);
+            aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            aboutToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F1;
+            aboutToolStripMenuItem.Size = new System.Drawing.Size(157, 26);
+            aboutToolStripMenuItem.Text = "Help...";
+            aboutToolStripMenuItem.Click += HelpToolStripMenuItem_Click;
             // 
             // aboutProgramToolStripMenuItem
             // 
-            this.aboutProgramToolStripMenuItem.Name = "aboutProgramToolStripMenuItem";
-            this.aboutProgramToolStripMenuItem.Size = new System.Drawing.Size(157, 26);
-            this.aboutProgramToolStripMenuItem.Text = "About...";
-            this.aboutProgramToolStripMenuItem.Click += new System.EventHandler(this.AboutProgramToolStripMenuItem_Click);
+            aboutProgramToolStripMenuItem.Name = "aboutProgramToolStripMenuItem";
+            aboutProgramToolStripMenuItem.Size = new System.Drawing.Size(157, 26);
+            aboutProgramToolStripMenuItem.Text = "About...";
+            aboutProgramToolStripMenuItem.Click += AboutProgramToolStripMenuItem_Click;
             // 
             // panelControls
             // 
-            this.panelControls.AutoSize = true;
-            this.panelControls.Controls.Add(this.gbActions);
-            this.panelControls.Controls.Add(this.gbFileNamePattern);
-            this.panelControls.Controls.Add(this.gbImagesDirectory);
-            this.panelControls.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelControls.Location = new System.Drawing.Point(0, 30);
-            this.panelControls.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.panelControls.Name = "panelControls";
-            this.panelControls.Size = new System.Drawing.Size(864, 219);
-            this.panelControls.TabIndex = 54;
+            panelControls.AutoSize = true;
+            panelControls.Controls.Add(gbActions);
+            panelControls.Controls.Add(gbFileNamePattern);
+            panelControls.Controls.Add(gbImagesDirectory);
+            panelControls.Dock = System.Windows.Forms.DockStyle.Top;
+            panelControls.Location = new System.Drawing.Point(0, 28);
+            panelControls.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            panelControls.Name = "panelControls";
+            panelControls.Size = new System.Drawing.Size(864, 274);
+            panelControls.TabIndex = 54;
             // 
             // gbActions
             // 
-            this.gbActions.Controls.Add(this.chSkipUnprocessed);
-            this.gbActions.Controls.Add(this.buRename);
-            this.gbActions.Controls.Add(this.buAnalyze);
-            this.gbActions.Controls.Add(this.edFileNameTemplateSample);
-            this.gbActions.Controls.Add(this.laExample);
-            this.gbActions.Dock = System.Windows.Forms.DockStyle.Top;
-            this.gbActions.Location = new System.Drawing.Point(0, 165);
-            this.gbActions.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.gbActions.Name = "gbActions";
-            this.gbActions.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.gbActions.Size = new System.Drawing.Size(864, 54);
-            this.gbActions.TabIndex = 54;
-            this.gbActions.TabStop = false;
-            this.gbActions.Text = "Step 3 - Preview result and go rename";
+            gbActions.Controls.Add(chSkipUnprocessed);
+            gbActions.Controls.Add(buRename);
+            gbActions.Controls.Add(buAnalyze);
+            gbActions.Controls.Add(edFileNameTemplateSample);
+            gbActions.Controls.Add(laExample);
+            gbActions.Dock = System.Windows.Forms.DockStyle.Top;
+            gbActions.Location = new System.Drawing.Point(0, 206);
+            gbActions.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            gbActions.Name = "gbActions";
+            gbActions.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            gbActions.Size = new System.Drawing.Size(864, 68);
+            gbActions.TabIndex = 54;
+            gbActions.TabStop = false;
+            gbActions.Text = "Step 3 - Preview result and go rename";
             // 
             // chSkipUnprocessed
             // 
-            this.chSkipUnprocessed.AutoSize = true;
-            this.chSkipUnprocessed.Checked = true;
-            this.chSkipUnprocessed.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chSkipUnprocessed.Location = new System.Drawing.Point(712, 23);
-            this.chSkipUnprocessed.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.chSkipUnprocessed.Name = "chSkipUnprocessed";
-            this.chSkipUnprocessed.Size = new System.Drawing.Size(138, 20);
-            this.chSkipUnprocessed.TabIndex = 54;
-            this.chSkipUnprocessed.Text = "Skip unprocessed";
-            this.chSkipUnprocessed.UseVisualStyleBackColor = true;
+            chSkipUnprocessed.AutoSize = true;
+            chSkipUnprocessed.Checked = true;
+            chSkipUnprocessed.CheckState = System.Windows.Forms.CheckState.Checked;
+            chSkipUnprocessed.Location = new System.Drawing.Point(712, 29);
+            chSkipUnprocessed.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            chSkipUnprocessed.Name = "chSkipUnprocessed";
+            chSkipUnprocessed.Size = new System.Drawing.Size(146, 24);
+            chSkipUnprocessed.TabIndex = 54;
+            chSkipUnprocessed.Text = "Skip unprocessed";
+            chSkipUnprocessed.UseVisualStyleBackColor = true;
             // 
             // buRename
             // 
-            this.buRename.Location = new System.Drawing.Point(621, 18);
-            this.buRename.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.buRename.Name = "buRename";
-            this.buRename.Size = new System.Drawing.Size(85, 32);
-            this.buRename.TabIndex = 51;
-            this.buRename.Text = "Rename";
-            this.buRename.UseVisualStyleBackColor = true;
-            this.buRename.Click += new System.EventHandler(this.BuRename_Click);
+            buRename.Location = new System.Drawing.Point(621, 22);
+            buRename.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            buRename.Name = "buRename";
+            buRename.Size = new System.Drawing.Size(85, 40);
+            buRename.TabIndex = 51;
+            buRename.Text = "Rename";
+            buRename.UseVisualStyleBackColor = true;
+            buRename.Click += BuRename_Click;
             // 
             // buAnalyze
             // 
-            this.buAnalyze.Location = new System.Drawing.Point(528, 18);
-            this.buAnalyze.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.buAnalyze.Name = "buAnalyze";
-            this.buAnalyze.Size = new System.Drawing.Size(85, 32);
-            this.buAnalyze.TabIndex = 50;
-            this.buAnalyze.Text = "Preview";
-            this.buAnalyze.UseVisualStyleBackColor = true;
-            this.buAnalyze.Click += new System.EventHandler(this.BuAnalyze_Click);
+            buAnalyze.Location = new System.Drawing.Point(528, 22);
+            buAnalyze.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            buAnalyze.Name = "buAnalyze";
+            buAnalyze.Size = new System.Drawing.Size(85, 40);
+            buAnalyze.TabIndex = 50;
+            buAnalyze.Text = "Preview";
+            buAnalyze.UseVisualStyleBackColor = true;
+            buAnalyze.Click += BuAnalyze_Click;
             // 
             // edFileNameTemplateSample
             // 
-            this.edFileNameTemplateSample.BackColor = System.Drawing.SystemColors.Control;
-            this.edFileNameTemplateSample.Location = new System.Drawing.Point(145, 22);
-            this.edFileNameTemplateSample.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.edFileNameTemplateSample.Name = "edFileNameTemplateSample";
-            this.edFileNameTemplateSample.ReadOnly = true;
-            this.edFileNameTemplateSample.Size = new System.Drawing.Size(309, 22);
-            this.edFileNameTemplateSample.TabIndex = 49;
+            edFileNameTemplateSample.BackColor = System.Drawing.SystemColors.Control;
+            edFileNameTemplateSample.Location = new System.Drawing.Point(145, 28);
+            edFileNameTemplateSample.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            edFileNameTemplateSample.Name = "edFileNameTemplateSample";
+            edFileNameTemplateSample.ReadOnly = true;
+            edFileNameTemplateSample.Size = new System.Drawing.Size(309, 27);
+            edFileNameTemplateSample.TabIndex = 49;
             // 
             // laExample
             // 
-            this.laExample.AutoSize = true;
-            this.laExample.Location = new System.Drawing.Point(13, 26);
-            this.laExample.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.laExample.Name = "laExample";
-            this.laExample.Size = new System.Drawing.Size(102, 16);
-            this.laExample.TabIndex = 48;
-            this.laExample.Text = "Result file name";
+            laExample.AutoSize = true;
+            laExample.Location = new System.Drawing.Point(13, 32);
+            laExample.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            laExample.Name = "laExample";
+            laExample.Size = new System.Drawing.Size(115, 20);
+            laExample.TabIndex = 48;
+            laExample.Text = "Result file name";
             // 
             // gbFileNamePattern
             // 
-            this.gbFileNamePattern.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.gbFileNamePattern.Controls.Add(this.chUseSoftwareName);
-            this.gbFileNamePattern.Controls.Add(this.chImageFilePrefix);
-            this.gbFileNamePattern.Controls.Add(this.chUseImageSize);
-            this.gbFileNamePattern.Controls.Add(this.chImageOrientation);
-            this.gbFileNamePattern.Controls.Add(this.chUseCameraName);
-            this.gbFileNamePattern.Controls.Add(this.chSuffixDelimiter);
-            this.gbFileNamePattern.Controls.Add(this.chCounter);
-            this.gbFileNamePattern.Controls.Add(this.chDateTimePrefix);
-            this.gbFileNamePattern.Controls.Add(this.edCounterSuffix);
-            this.gbFileNamePattern.Controls.Add(this.edFilePrefix);
-            this.gbFileNamePattern.Controls.Add(this.cbDateTimeStampFormat);
-            this.gbFileNamePattern.Controls.Add(this.edSuffixDelimiter);
-            this.gbFileNamePattern.Dock = System.Windows.Forms.DockStyle.Top;
-            this.gbFileNamePattern.Location = new System.Drawing.Point(0, 74);
-            this.gbFileNamePattern.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.gbFileNamePattern.Name = "gbFileNamePattern";
-            this.gbFileNamePattern.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.gbFileNamePattern.Size = new System.Drawing.Size(864, 91);
-            this.gbFileNamePattern.TabIndex = 55;
-            this.gbFileNamePattern.TabStop = false;
-            this.gbFileNamePattern.Text = "Step 2 - adjust file name pattern settings";
+            gbFileNamePattern.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            gbFileNamePattern.Controls.Add(chUseSoftwareName);
+            gbFileNamePattern.Controls.Add(chImageFilePrefix);
+            gbFileNamePattern.Controls.Add(chUseImageSize);
+            gbFileNamePattern.Controls.Add(chImageOrientation);
+            gbFileNamePattern.Controls.Add(chUseCameraName);
+            gbFileNamePattern.Controls.Add(chSuffixDelimiter);
+            gbFileNamePattern.Controls.Add(chCounter);
+            gbFileNamePattern.Controls.Add(chDateTimePrefix);
+            gbFileNamePattern.Controls.Add(edCounterSuffix);
+            gbFileNamePattern.Controls.Add(edFilePrefix);
+            gbFileNamePattern.Controls.Add(cbDateTimeStampFormat);
+            gbFileNamePattern.Controls.Add(edSuffixDelimiter);
+            gbFileNamePattern.Dock = System.Windows.Forms.DockStyle.Top;
+            gbFileNamePattern.Location = new System.Drawing.Point(0, 92);
+            gbFileNamePattern.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            gbFileNamePattern.Name = "gbFileNamePattern";
+            gbFileNamePattern.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            gbFileNamePattern.Size = new System.Drawing.Size(864, 114);
+            gbFileNamePattern.TabIndex = 55;
+            gbFileNamePattern.TabStop = false;
+            gbFileNamePattern.Text = "Step 2 - adjust file name pattern settings";
             // 
             // chUseSoftwareName
             // 
-            this.chUseSoftwareName.AutoSize = true;
-            this.chUseSoftwareName.Location = new System.Drawing.Point(676, 54);
-            this.chUseSoftwareName.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.chUseSoftwareName.Name = "chUseSoftwareName";
-            this.chUseSoftwareName.Size = new System.Drawing.Size(81, 20);
-            this.chUseSoftwareName.TabIndex = 53;
-            this.chUseSoftwareName.Text = "Software";
-            this.chUseSoftwareName.UseVisualStyleBackColor = true;
-            this.chUseSoftwareName.CheckedChanged += new System.EventHandler(this.ChSoftware_CheckedChanged);
+            chUseSoftwareName.AutoSize = true;
+            chUseSoftwareName.Location = new System.Drawing.Point(676, 68);
+            chUseSoftwareName.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            chUseSoftwareName.Name = "chUseSoftwareName";
+            chUseSoftwareName.Size = new System.Drawing.Size(90, 24);
+            chUseSoftwareName.TabIndex = 53;
+            chUseSoftwareName.Text = "Software";
+            chUseSoftwareName.UseVisualStyleBackColor = true;
+            chUseSoftwareName.CheckedChanged += ChSoftware_CheckedChanged;
             // 
             // chImageFilePrefix
             // 
-            this.chImageFilePrefix.AutoSize = true;
-            this.chImageFilePrefix.Checked = true;
-            this.chImageFilePrefix.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chImageFilePrefix.Location = new System.Drawing.Point(16, 23);
-            this.chImageFilePrefix.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.chImageFilePrefix.Name = "chImageFilePrefix";
-            this.chImageFilePrefix.Size = new System.Drawing.Size(86, 20);
-            this.chImageFilePrefix.TabIndex = 52;
-            this.chImageFilePrefix.Text = "File prefix";
-            this.chImageFilePrefix.UseVisualStyleBackColor = true;
-            this.chImageFilePrefix.CheckedChanged += new System.EventHandler(this.ChImageFilePrefix_CheckedChanged);
+            chImageFilePrefix.AutoSize = true;
+            chImageFilePrefix.Checked = true;
+            chImageFilePrefix.CheckState = System.Windows.Forms.CheckState.Checked;
+            chImageFilePrefix.Location = new System.Drawing.Point(16, 29);
+            chImageFilePrefix.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            chImageFilePrefix.Name = "chImageFilePrefix";
+            chImageFilePrefix.Size = new System.Drawing.Size(96, 24);
+            chImageFilePrefix.TabIndex = 52;
+            chImageFilePrefix.Text = "File prefix";
+            chImageFilePrefix.UseVisualStyleBackColor = true;
+            chImageFilePrefix.CheckedChanged += ChImageFilePrefix_CheckedChanged;
             // 
             // chUseImageSize
             // 
-            this.chUseImageSize.AutoSize = true;
-            this.chUseImageSize.Location = new System.Drawing.Point(512, 54);
-            this.chUseImageSize.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.chUseImageSize.Name = "chUseImageSize";
-            this.chUseImageSize.Size = new System.Drawing.Size(94, 20);
-            this.chUseImageSize.TabIndex = 45;
-            this.chUseImageSize.Text = "Image size";
-            this.chUseImageSize.UseVisualStyleBackColor = true;
-            this.chUseImageSize.CheckedChanged += new System.EventHandler(this.ChUseImageSize_CheckedChanged);
+            chUseImageSize.AutoSize = true;
+            chUseImageSize.Location = new System.Drawing.Point(512, 68);
+            chUseImageSize.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            chUseImageSize.Name = "chUseImageSize";
+            chUseImageSize.Size = new System.Drawing.Size(102, 24);
+            chUseImageSize.TabIndex = 45;
+            chUseImageSize.Text = "Image size";
+            chUseImageSize.UseVisualStyleBackColor = true;
+            chUseImageSize.CheckedChanged += ChUseImageSize_CheckedChanged;
             // 
             // chImageOrientation
             // 
-            this.chImageOrientation.AutoSize = true;
-            this.chImageOrientation.Location = new System.Drawing.Point(512, 23);
-            this.chImageOrientation.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.chImageOrientation.Name = "chImageOrientation";
-            this.chImageOrientation.Size = new System.Drawing.Size(132, 20);
-            this.chImageOrientation.TabIndex = 44;
-            this.chImageOrientation.Text = "Image orientation";
-            this.chImageOrientation.UseVisualStyleBackColor = true;
-            this.chImageOrientation.CheckedChanged += new System.EventHandler(this.ChImageOrientation_CheckedChanged);
+            chImageOrientation.AutoSize = true;
+            chImageOrientation.Location = new System.Drawing.Point(512, 29);
+            chImageOrientation.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            chImageOrientation.Name = "chImageOrientation";
+            chImageOrientation.Size = new System.Drawing.Size(150, 24);
+            chImageOrientation.TabIndex = 44;
+            chImageOrientation.Text = "Image orientation";
+            chImageOrientation.UseVisualStyleBackColor = true;
+            chImageOrientation.CheckedChanged += ChImageOrientation_CheckedChanged;
             // 
             // chUseCameraName
             // 
-            this.chUseCameraName.AutoSize = true;
-            this.chUseCameraName.Location = new System.Drawing.Point(676, 23);
-            this.chUseCameraName.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.chUseCameraName.Name = "chUseCameraName";
-            this.chUseCameraName.Size = new System.Drawing.Size(114, 20);
-            this.chUseCameraName.TabIndex = 43;
-            this.chUseCameraName.Text = "Camera name";
-            this.chUseCameraName.UseVisualStyleBackColor = true;
-            this.chUseCameraName.CheckedChanged += new System.EventHandler(this.ChUseCameraName_CheckedChanged);
+            chUseCameraName.AutoSize = true;
+            chUseCameraName.Location = new System.Drawing.Point(676, 29);
+            chUseCameraName.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            chUseCameraName.Name = "chUseCameraName";
+            chUseCameraName.Size = new System.Drawing.Size(123, 24);
+            chUseCameraName.TabIndex = 43;
+            chUseCameraName.Text = "Camera name";
+            chUseCameraName.UseVisualStyleBackColor = true;
+            chUseCameraName.CheckedChanged += ChUseCameraName_CheckedChanged;
             // 
             // chSuffixDelimiter
             // 
-            this.chSuffixDelimiter.AutoSize = true;
-            this.chSuffixDelimiter.Checked = true;
-            this.chSuffixDelimiter.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chSuffixDelimiter.Location = new System.Drawing.Point(395, 23);
-            this.chSuffixDelimiter.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.chSuffixDelimiter.Name = "chSuffixDelimiter";
-            this.chSuffixDelimiter.Size = new System.Drawing.Size(82, 20);
-            this.chSuffixDelimiter.TabIndex = 34;
-            this.chSuffixDelimiter.Text = "Delimiter";
-            this.chSuffixDelimiter.UseVisualStyleBackColor = true;
-            this.chSuffixDelimiter.CheckedChanged += new System.EventHandler(this.ChSuffixDelimiter_CheckedChanged);
+            chSuffixDelimiter.AutoSize = true;
+            chSuffixDelimiter.Checked = true;
+            chSuffixDelimiter.CheckState = System.Windows.Forms.CheckState.Checked;
+            chSuffixDelimiter.Location = new System.Drawing.Point(395, 29);
+            chSuffixDelimiter.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            chSuffixDelimiter.Name = "chSuffixDelimiter";
+            chSuffixDelimiter.Size = new System.Drawing.Size(93, 24);
+            chSuffixDelimiter.TabIndex = 34;
+            chSuffixDelimiter.Text = "Delimiter";
+            chSuffixDelimiter.UseVisualStyleBackColor = true;
+            chSuffixDelimiter.CheckedChanged += ChSuffixDelimiter_CheckedChanged;
             // 
             // chCounter
             // 
-            this.chCounter.AutoSize = true;
-            this.chCounter.Checked = true;
-            this.chCounter.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chCounter.Location = new System.Drawing.Point(284, 25);
-            this.chCounter.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.chCounter.Name = "chCounter";
-            this.chCounter.Size = new System.Drawing.Size(75, 20);
-            this.chCounter.TabIndex = 33;
-            this.chCounter.Text = "Counter";
-            this.chCounter.UseVisualStyleBackColor = true;
-            this.chCounter.CheckedChanged += new System.EventHandler(this.ChCounter_CheckedChanged);
+            chCounter.AutoSize = true;
+            chCounter.Checked = true;
+            chCounter.CheckState = System.Windows.Forms.CheckState.Checked;
+            chCounter.Location = new System.Drawing.Point(284, 31);
+            chCounter.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            chCounter.Name = "chCounter";
+            chCounter.Size = new System.Drawing.Size(83, 24);
+            chCounter.TabIndex = 33;
+            chCounter.Text = "Counter";
+            chCounter.UseVisualStyleBackColor = true;
+            chCounter.CheckedChanged += ChCounter_CheckedChanged;
             // 
             // chDateTimePrefix
             // 
-            this.chDateTimePrefix.AutoSize = true;
-            this.chDateTimePrefix.Checked = true;
-            this.chDateTimePrefix.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chDateTimePrefix.Location = new System.Drawing.Point(152, 25);
-            this.chDateTimePrefix.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.chDateTimePrefix.Name = "chDateTimePrefix";
-            this.chDateTimePrefix.Size = new System.Drawing.Size(116, 20);
-            this.chDateTimePrefix.TabIndex = 32;
-            this.chDateTimePrefix.Text = "Datetime mark";
-            this.chDateTimePrefix.UseVisualStyleBackColor = true;
-            this.chDateTimePrefix.CheckedChanged += new System.EventHandler(this.ChDateTimePrefix_CheckedChanged);
+            chDateTimePrefix.AutoSize = true;
+            chDateTimePrefix.Checked = true;
+            chDateTimePrefix.CheckState = System.Windows.Forms.CheckState.Checked;
+            chDateTimePrefix.Location = new System.Drawing.Point(152, 31);
+            chDateTimePrefix.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            chDateTimePrefix.Name = "chDateTimePrefix";
+            chDateTimePrefix.Size = new System.Drawing.Size(130, 24);
+            chDateTimePrefix.TabIndex = 32;
+            chDateTimePrefix.Text = "Datetime mark";
+            chDateTimePrefix.UseVisualStyleBackColor = true;
+            chDateTimePrefix.CheckedChanged += ChDateTimePrefix_CheckedChanged;
             // 
             // edCounterSuffix
             // 
-            this.edCounterSuffix.Location = new System.Drawing.Point(284, 52);
-            this.edCounterSuffix.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.edCounterSuffix.Name = "edCounterSuffix";
-            this.edCounterSuffix.Size = new System.Drawing.Size(92, 22);
-            this.edCounterSuffix.TabIndex = 31;
-            this.edCounterSuffix.Text = "000";
-            this.edCounterSuffix.TextChanged += new System.EventHandler(this.EdCounterSuffix_TextChanged);
+            edCounterSuffix.Location = new System.Drawing.Point(284, 65);
+            edCounterSuffix.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            edCounterSuffix.Name = "edCounterSuffix";
+            edCounterSuffix.Size = new System.Drawing.Size(92, 27);
+            edCounterSuffix.TabIndex = 31;
+            edCounterSuffix.Text = "000";
+            edCounterSuffix.TextChanged += EdCounterSuffix_TextChanged;
             // 
             // edFilePrefix
             // 
-            this.edFilePrefix.Location = new System.Drawing.Point(16, 52);
-            this.edFilePrefix.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.edFilePrefix.Name = "edFilePrefix";
-            this.edFilePrefix.Size = new System.Drawing.Size(119, 22);
-            this.edFilePrefix.TabIndex = 25;
-            this.edFilePrefix.Text = "Image";
-            this.edFilePrefix.TextChanged += new System.EventHandler(this.EdFilePrefix_TextChanged);
+            edFilePrefix.Location = new System.Drawing.Point(16, 65);
+            edFilePrefix.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            edFilePrefix.Name = "edFilePrefix";
+            edFilePrefix.Size = new System.Drawing.Size(119, 27);
+            edFilePrefix.TabIndex = 25;
+            edFilePrefix.Text = "Image";
+            edFilePrefix.TextChanged += EdFilePrefix_TextChanged;
             // 
             // cbDateTimeStampFormat
             // 
-            this.cbDateTimeStampFormat.FormattingEnabled = true;
-            this.cbDateTimeStampFormat.Items.AddRange(new object[] {
-            "yyyymmdd",
-            "yymmdd",
-            "yyyymm",
-            "yymm",
-            "yyyymmdd hhmmss",
-            "yyyymmdd hhmm",
-            "yymmdd hhmmss",
-            "yymmdd hhmm"});
-            this.cbDateTimeStampFormat.Location = new System.Drawing.Point(153, 52);
-            this.cbDateTimeStampFormat.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.cbDateTimeStampFormat.Name = "cbDateTimeStampFormat";
-            this.cbDateTimeStampFormat.Size = new System.Drawing.Size(112, 24);
-            this.cbDateTimeStampFormat.TabIndex = 27;
-            this.cbDateTimeStampFormat.Text = "yyyymmdd";
-            this.cbDateTimeStampFormat.SelectedIndexChanged += new System.EventHandler(this.CbDateTimeStampFormat_SelectedIndexChanged);
+            cbDateTimeStampFormat.FormattingEnabled = true;
+            cbDateTimeStampFormat.Items.AddRange(new object[] { "yyyymmdd", "yymmdd", "yyyymm", "yymm", "yyyymmdd hhmmss", "yyyymmdd hhmm", "yymmdd hhmmss", "yymmdd hhmm" });
+            cbDateTimeStampFormat.Location = new System.Drawing.Point(153, 65);
+            cbDateTimeStampFormat.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            cbDateTimeStampFormat.Name = "cbDateTimeStampFormat";
+            cbDateTimeStampFormat.Size = new System.Drawing.Size(112, 28);
+            cbDateTimeStampFormat.TabIndex = 27;
+            cbDateTimeStampFormat.Text = "yyyymmdd";
+            cbDateTimeStampFormat.SelectedIndexChanged += CbDateTimeStampFormat_SelectedIndexChanged;
             // 
             // edSuffixDelimiter
             // 
-            this.edSuffixDelimiter.Location = new System.Drawing.Point(395, 52);
-            this.edSuffixDelimiter.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.edSuffixDelimiter.Name = "edSuffixDelimiter";
-            this.edSuffixDelimiter.Size = new System.Drawing.Size(76, 22);
-            this.edSuffixDelimiter.TabIndex = 29;
-            this.edSuffixDelimiter.Text = "_";
-            this.edSuffixDelimiter.TextChanged += new System.EventHandler(this.EdSuffixDelimiter_TextChanged);
+            edSuffixDelimiter.Location = new System.Drawing.Point(395, 65);
+            edSuffixDelimiter.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            edSuffixDelimiter.Name = "edSuffixDelimiter";
+            edSuffixDelimiter.Size = new System.Drawing.Size(76, 27);
+            edSuffixDelimiter.TabIndex = 29;
+            edSuffixDelimiter.Text = "_";
+            edSuffixDelimiter.TextChanged += EdSuffixDelimiter_TextChanged;
             // 
             // gbImagesDirectory
             // 
-            this.gbImagesDirectory.Controls.Add(this.chIncludeSubdirectories);
-            this.gbImagesDirectory.Controls.Add(this.label1);
-            this.gbImagesDirectory.Controls.Add(this.cbFileTypes);
-            this.gbImagesDirectory.Controls.Add(this.laPath);
-            this.gbImagesDirectory.Controls.Add(this.buOpenPath);
-            this.gbImagesDirectory.Controls.Add(this.buRefresh);
-            this.gbImagesDirectory.Dock = System.Windows.Forms.DockStyle.Top;
-            this.gbImagesDirectory.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.gbImagesDirectory.Location = new System.Drawing.Point(0, 0);
-            this.gbImagesDirectory.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.gbImagesDirectory.Name = "gbImagesDirectory";
-            this.gbImagesDirectory.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.gbImagesDirectory.Size = new System.Drawing.Size(864, 74);
-            this.gbImagesDirectory.TabIndex = 55;
-            this.gbImagesDirectory.TabStop = false;
-            this.gbImagesDirectory.Text = "Step 1 - choose an images directory";
+            gbImagesDirectory.Controls.Add(chIncludeSubdirectories);
+            gbImagesDirectory.Controls.Add(label1);
+            gbImagesDirectory.Controls.Add(cbFileTypes);
+            gbImagesDirectory.Controls.Add(laPath);
+            gbImagesDirectory.Controls.Add(buOpenPath);
+            gbImagesDirectory.Controls.Add(buRefresh);
+            gbImagesDirectory.Dock = System.Windows.Forms.DockStyle.Top;
+            gbImagesDirectory.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 204);
+            gbImagesDirectory.Location = new System.Drawing.Point(0, 0);
+            gbImagesDirectory.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            gbImagesDirectory.Name = "gbImagesDirectory";
+            gbImagesDirectory.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            gbImagesDirectory.Size = new System.Drawing.Size(864, 92);
+            gbImagesDirectory.TabIndex = 55;
+            gbImagesDirectory.TabStop = false;
+            gbImagesDirectory.Text = "Step 1 - choose an images directory";
             // 
             // chIncludeSubdirectories
             // 
-            this.chIncludeSubdirectories.AutoSize = true;
-            this.chIncludeSubdirectories.Location = new System.Drawing.Point(676, 38);
-            this.chIncludeSubdirectories.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.chIncludeSubdirectories.Name = "chIncludeSubdirectories";
-            this.chIncludeSubdirectories.Size = new System.Drawing.Size(168, 21);
-            this.chIncludeSubdirectories.TabIndex = 36;
-            this.chIncludeSubdirectories.Text = "Include subdirectories";
-            this.chIncludeSubdirectories.UseVisualStyleBackColor = true;
+            chIncludeSubdirectories.AutoSize = true;
+            chIncludeSubdirectories.Location = new System.Drawing.Point(676, 45);
+            chIncludeSubdirectories.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            chIncludeSubdirectories.Name = "chIncludeSubdirectories";
+            chIncludeSubdirectories.Size = new System.Drawing.Size(168, 21);
+            chIncludeSubdirectories.TabIndex = 36;
+            chIncludeSubdirectories.Text = "Include subdirectories";
+            chIncludeSubdirectories.UseVisualStyleBackColor = true;
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(395, 12);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(101, 17);
-            this.label1.TabIndex = 35;
-            this.label1.Text = "File extensions";
+            label1.AutoSize = true;
+            label1.Location = new System.Drawing.Point(395, 15);
+            label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label1.Name = "label1";
+            label1.Size = new System.Drawing.Size(101, 17);
+            label1.TabIndex = 35;
+            label1.Text = "File extensions";
             // 
             // cbFileTypes
             // 
-            this.cbFileTypes.FormattingEnabled = true;
-            this.cbFileTypes.Items.AddRange(new object[] {
-            "*.*",
-            "jpg; jpeg;",
-            "png",
-            "tif; tiff"});
-            this.cbFileTypes.Location = new System.Drawing.Point(395, 33);
-            this.cbFileTypes.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.cbFileTypes.Name = "cbFileTypes";
-            this.cbFileTypes.Size = new System.Drawing.Size(111, 25);
-            this.cbFileTypes.TabIndex = 34;
+            cbFileTypes.FormattingEnabled = true;
+            cbFileTypes.Items.AddRange(new object[] { "*.*", "jpg; jpeg;", "png", "tif; tiff" });
+            cbFileTypes.Location = new System.Drawing.Point(395, 41);
+            cbFileTypes.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            cbFileTypes.Name = "cbFileTypes";
+            cbFileTypes.Size = new System.Drawing.Size(111, 25);
+            cbFileTypes.TabIndex = 34;
             // 
             // laPath
             // 
-            this.laPath.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.laPath.Location = new System.Drawing.Point(16, 32);
-            this.laPath.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.laPath.Name = "laPath";
-            this.laPath.Size = new System.Drawing.Size(316, 23);
-            this.laPath.TabIndex = 30;
-            this.laPath.Text = "<< no selection >>";
-            this.laPath.TextChanged += new System.EventHandler(this.laPath_TextChanged);
-            this.laPath.Leave += new System.EventHandler(this.laPath_Leave);
+            laPath.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 204);
+            laPath.Location = new System.Drawing.Point(16, 40);
+            laPath.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            laPath.Name = "laPath";
+            laPath.Size = new System.Drawing.Size(316, 23);
+            laPath.TabIndex = 30;
+            laPath.Text = "<< no selection >>";
+            laPath.TextChanged += laPath_TextChanged;
+            laPath.Leave += laPath_Leave;
             // 
             // buOpenPath
             // 
-            this.buOpenPath.Location = new System.Drawing.Point(336, 30);
-            this.buOpenPath.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.buOpenPath.Name = "buOpenPath";
-            this.buOpenPath.Size = new System.Drawing.Size(37, 32);
-            this.buOpenPath.TabIndex = 29;
-            this.buOpenPath.Text = "...";
-            this.buOpenPath.UseVisualStyleBackColor = true;
-            this.buOpenPath.Click += new System.EventHandler(this.BuOpenPath_Click);
+            buOpenPath.Location = new System.Drawing.Point(336, 38);
+            buOpenPath.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            buOpenPath.Name = "buOpenPath";
+            buOpenPath.Size = new System.Drawing.Size(32, 32);
+            buOpenPath.TabIndex = 29;
+            buOpenPath.Text = "...";
+            buOpenPath.UseVisualStyleBackColor = true;
+            buOpenPath.Click += BuOpenPath_Click;
             // 
             // buRefresh
             // 
-            this.buRefresh.AutoEllipsis = true;
-            this.buRefresh.BackColor = System.Drawing.SystemColors.Info;
-            this.buRefresh.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.buRefresh.Image = global::ExifImageRenamer.Properties.Resources.img_icons816;
-            this.buRefresh.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.buRefresh.Location = new System.Drawing.Point(515, 30);
-            this.buRefresh.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.buRefresh.Name = "buRefresh";
-            this.buRefresh.Size = new System.Drawing.Size(112, 32);
-            this.buRefresh.TabIndex = 33;
-            this.buRefresh.Text = "Refresh";
-            this.buRefresh.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.buRefresh.UseVisualStyleBackColor = false;
-            this.buRefresh.Click += new System.EventHandler(this.BuRefresh_Click);
+            buRefresh.AutoEllipsis = true;
+            buRefresh.BackColor = System.Drawing.SystemColors.Info;
+            buRefresh.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            buRefresh.Image = ExifImageRenamer.Properties.Resources.img_icons816;
+            buRefresh.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            buRefresh.Location = new System.Drawing.Point(515, 38);
+            buRefresh.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            buRefresh.Name = "buRefresh";
+            buRefresh.Size = new System.Drawing.Size(112, 32);
+            buRefresh.TabIndex = 33;
+            buRefresh.Text = "Refresh";
+            buRefresh.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            buRefresh.UseVisualStyleBackColor = false;
+            buRefresh.Click += BuRefresh_Click;
             // 
             // splitContainer1
             // 
-            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 249);
-            this.splitContainer1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.splitContainer1.Name = "splitContainer1";
+            splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+            splitContainer1.Location = new System.Drawing.Point(0, 302);
+            splitContainer1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.gbFileslist);
-            this.splitContainer1.Panel1.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            splitContainer1.Panel1.Controls.Add(gbFileslist);
+            splitContainer1.Panel1.RightToLeft = System.Windows.Forms.RightToLeft.No;
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.gbViewImage);
-            this.splitContainer1.Panel2.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.splitContainer1.Size = new System.Drawing.Size(864, 296);
-            this.splitContainer1.SplitterDistance = 380;
-            this.splitContainer1.SplitterWidth = 5;
-            this.splitContainer1.TabIndex = 55;
+            splitContainer1.Panel2.Controls.Add(gbViewImage);
+            splitContainer1.Panel2.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            splitContainer1.Size = new System.Drawing.Size(864, 382);
+            splitContainer1.SplitterDistance = 380;
+            splitContainer1.SplitterWidth = 5;
+            splitContainer1.TabIndex = 55;
             // 
             // gbFileslist
             // 
-            this.gbFileslist.Controls.Add(this.dataGridViewFiles);
-            this.gbFileslist.Controls.Add(this.panelSelectButtons);
-            this.gbFileslist.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gbFileslist.Location = new System.Drawing.Point(0, 0);
-            this.gbFileslist.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.gbFileslist.Name = "gbFileslist";
-            this.gbFileslist.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.gbFileslist.Size = new System.Drawing.Size(380, 296);
-            this.gbFileslist.TabIndex = 30;
-            this.gbFileslist.TabStop = false;
-            this.gbFileslist.Text = "Files List";
+            gbFileslist.Controls.Add(dataGridViewFiles);
+            gbFileslist.Controls.Add(panelSelectButtons);
+            gbFileslist.Dock = System.Windows.Forms.DockStyle.Fill;
+            gbFileslist.Location = new System.Drawing.Point(0, 0);
+            gbFileslist.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            gbFileslist.Name = "gbFileslist";
+            gbFileslist.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            gbFileslist.Size = new System.Drawing.Size(380, 382);
+            gbFileslist.TabIndex = 30;
+            gbFileslist.TabStop = false;
+            gbFileslist.Text = "Files List";
             // 
             // dataGridViewFiles
             // 
-            this.dataGridViewFiles.AllowUserToAddRows = false;
-            this.dataGridViewFiles.AllowUserToDeleteRows = false;
-            this.dataGridViewFiles.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewFiles.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridViewFiles.Location = new System.Drawing.Point(4, 19);
-            this.dataGridViewFiles.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.dataGridViewFiles.MultiSelect = false;
-            this.dataGridViewFiles.Name = "dataGridViewFiles";
-            this.dataGridViewFiles.ReadOnly = false;
-            this.dataGridViewFiles.RowHeadersWidth = 51;
-            this.dataGridViewFiles.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridViewFiles.ShowEditingIcon = false;
-            this.dataGridViewFiles.Size = new System.Drawing.Size(372, 273);
-            this.dataGridViewFiles.TabIndex = 0;
-            this.dataGridViewFiles.SelectionChanged += new System.EventHandler(this.DataGridView1_SelectionChanged);
+            dataGridViewFiles.AllowUserToAddRows = false;
+            dataGridViewFiles.AllowUserToDeleteRows = false;
+            dataGridViewFiles.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewFiles.Dock = System.Windows.Forms.DockStyle.Fill;
+            dataGridViewFiles.Location = new System.Drawing.Point(4, 67);
+            dataGridViewFiles.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            dataGridViewFiles.MultiSelect = false;
+            dataGridViewFiles.Name = "dataGridViewFiles";
+            dataGridViewFiles.RowHeadersWidth = 51;
+            dataGridViewFiles.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            dataGridViewFiles.ShowEditingIcon = false;
+            dataGridViewFiles.Size = new System.Drawing.Size(372, 310);
+            dataGridViewFiles.TabIndex = 0;
+            dataGridViewFiles.SelectionChanged += DataGridView1_SelectionChanged;
             // 
             // panelSelectButtons
             // 
-            this.panelSelectButtons = new System.Windows.Forms.Panel();
-            this.panelSelectButtons.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelSelectButtons.Height = 30;
-            this.panelSelectButtons.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.panelSelectButtons.Name = "panelSelectButtons";
-            this.panelSelectButtons.TabIndex = 1;
+            panelSelectButtons.Controls.Add(buSelectAll);
+            panelSelectButtons.Controls.Add(buDeselectAll);
+            panelSelectButtons.Dock = System.Windows.Forms.DockStyle.Top;
+            panelSelectButtons.Location = new System.Drawing.Point(4, 25);
+            panelSelectButtons.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            panelSelectButtons.Name = "panelSelectButtons";
+            panelSelectButtons.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            panelSelectButtons.Size = new System.Drawing.Size(372, 42);
+            panelSelectButtons.TabIndex = 1;
             // 
             // buSelectAll
             // 
-            this.buSelectAll = new System.Windows.Forms.Button();
-            this.buSelectAll.Text = "Select All";
-            this.buSelectAll.AutoSize = true;
-            this.buSelectAll.Location = new System.Drawing.Point(8, 4);
-            this.buSelectAll.Click += new System.EventHandler(this.BuSelectAll_Click);
+            buSelectAll.AutoSize = true;
+            buSelectAll.Location = new System.Drawing.Point(8, 4);
+            buSelectAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            buSelectAll.Name = "buSelectAll";
+            buSelectAll.Size = new System.Drawing.Size(98, 38);
+            buSelectAll.TabIndex = 0;
+            buSelectAll.Text = "Select All";
+            buSelectAll.Click += BuSelectAll_Click;
             // 
             // buDeselectAll
             // 
-            this.buDeselectAll = new System.Windows.Forms.Button();
-            this.buDeselectAll.Text = "Deselect All";
-            this.buDeselectAll.AutoSize = true;
-            this.buDeselectAll.Location = new System.Drawing.Point(100, 4);
-            this.buDeselectAll.Click += new System.EventHandler(this.BuDeselectAll_Click);
-            // add buttons to panel
-            this.panelSelectButtons.Controls.Add(this.buSelectAll);
-            this.panelSelectButtons.Controls.Add(this.buDeselectAll);
+            buDeselectAll.AutoSize = true;
+            buDeselectAll.Location = new System.Drawing.Point(114, 4);
+            buDeselectAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            buDeselectAll.Name = "buDeselectAll";
+            buDeselectAll.Size = new System.Drawing.Size(98, 38);
+            buDeselectAll.TabIndex = 1;
+            buDeselectAll.Text = "Deselect All";
+            buDeselectAll.Click += BuDeselectAll_Click;
             // 
             // gbViewImage
             // 
-            this.gbViewImage.Controls.Add(this.splitContainer2);
-            this.gbViewImage.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gbViewImage.Location = new System.Drawing.Point(0, 0);
-            this.gbViewImage.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.gbViewImage.Name = "gbViewImage";
-            this.gbViewImage.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.gbViewImage.Size = new System.Drawing.Size(479, 296);
-            this.gbViewImage.TabIndex = 53;
-            this.gbViewImage.TabStop = false;
-            this.gbViewImage.Text = "Image preview";
+            gbViewImage.Controls.Add(splitContainer2);
+            gbViewImage.Dock = System.Windows.Forms.DockStyle.Fill;
+            gbViewImage.Location = new System.Drawing.Point(0, 0);
+            gbViewImage.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            gbViewImage.Name = "gbViewImage";
+            gbViewImage.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            gbViewImage.Size = new System.Drawing.Size(479, 382);
+            gbViewImage.TabIndex = 53;
+            gbViewImage.TabStop = false;
+            gbViewImage.Text = "Image preview";
             // 
             // splitContainer2
             // 
-            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer2.Location = new System.Drawing.Point(4, 19);
-            this.splitContainer2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.splitContainer2.Name = "splitContainer2";
-            this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
+            splitContainer2.Location = new System.Drawing.Point(4, 25);
+            splitContainer2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            splitContainer2.Name = "splitContainer2";
+            splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
             // splitContainer2.Panel1
             // 
-            this.splitContainer2.Panel1.Controls.Add(this.pictureBox1);
+            splitContainer2.Panel1.Controls.Add(pictureBox1);
             // 
             // splitContainer2.Panel2
             // 
-            this.splitContainer2.Panel2.Controls.Add(this.lbFileInfo);
-            this.splitContainer2.Panel2.Controls.Add(this.paExifButtons);
-            this.splitContainer2.Size = new System.Drawing.Size(471, 273);
-            this.splitContainer2.SplitterDistance = 165;
-            this.splitContainer2.SplitterWidth = 5;
-            this.splitContainer2.TabIndex = 0;
+            splitContainer2.Panel2.Controls.Add(lbFileInfo);
+            splitContainer2.Panel2.Controls.Add(paExifButtons);
+            splitContainer2.Size = new System.Drawing.Size(471, 352);
+            splitContainer2.SplitterDistance = 212;
+            splitContainer2.SplitterWidth = 6;
+            splitContainer2.TabIndex = 0;
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(471, 165);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
+            pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            pictureBox1.Location = new System.Drawing.Point(0, 0);
+            pictureBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new System.Drawing.Size(471, 212);
+            pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            pictureBox1.TabIndex = 0;
+            pictureBox1.TabStop = false;
             // 
             // lbFileInfo
             // 
-            this.lbFileInfo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lbFileInfo.FormattingEnabled = true;
-            this.lbFileInfo.ItemHeight = 16;
-            this.lbFileInfo.Location = new System.Drawing.Point(0, 0);
-            this.lbFileInfo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.lbFileInfo.Name = "lbFileInfo";
-            this.lbFileInfo.Size = new System.Drawing.Size(471, 69);
-            this.lbFileInfo.TabIndex = 0;
+            lbFileInfo.Dock = System.Windows.Forms.DockStyle.Fill;
+            lbFileInfo.FormattingEnabled = true;
+            lbFileInfo.Location = new System.Drawing.Point(0, 0);
+            lbFileInfo.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            lbFileInfo.Name = "lbFileInfo";
+            lbFileInfo.Size = new System.Drawing.Size(471, 92);
+            lbFileInfo.TabIndex = 0;
             // 
             // paExifButtons
             // 
-            this.paExifButtons.ColumnCount = 3;
-            this.paExifButtons.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 34F));
-            this.paExifButtons.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33F));
-            this.paExifButtons.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33F));
-            this.paExifButtons.Controls.Add(this.buEditExif, 0, 0);
-            this.paExifButtons.Controls.Add(this.buAddExif, 1, 0);
-            this.paExifButtons.Controls.Add(this.buDeleteExif, 2, 0);
-            this.paExifButtons.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.paExifButtons.Location = new System.Drawing.Point(0, 69);
-            this.paExifButtons.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.paExifButtons.Name = "paExifButtons";
-            this.paExifButtons.RowCount = 1;
-            this.paExifButtons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.paExifButtons.Size = new System.Drawing.Size(471, 34);
-            this.paExifButtons.TabIndex = 1;
+            paExifButtons.ColumnCount = 3;
+            paExifButtons.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 34F));
+            paExifButtons.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33F));
+            paExifButtons.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33F));
+            paExifButtons.Controls.Add(buEditExif, 0, 0);
+            paExifButtons.Controls.Add(buAddExif, 1, 0);
+            paExifButtons.Controls.Add(buDeleteExif, 2, 0);
+            paExifButtons.Dock = System.Windows.Forms.DockStyle.Bottom;
+            paExifButtons.Location = new System.Drawing.Point(0, 92);
+            paExifButtons.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            paExifButtons.Name = "paExifButtons";
+            paExifButtons.RowCount = 1;
+            paExifButtons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            paExifButtons.Size = new System.Drawing.Size(471, 42);
+            paExifButtons.TabIndex = 1;
             // 
             // buEditExif
             // 
-            this.buEditExif.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.buEditExif.Enabled = false;
-            this.buEditExif.Location = new System.Drawing.Point(0, 2);
-            this.buEditExif.Margin = new System.Windows.Forms.Padding(0, 2, 3, 0);
-            this.buEditExif.Name = "buEditExif";
-            this.buEditExif.Size = new System.Drawing.Size(157, 32);
-            this.buEditExif.TabIndex = 1;
-            this.buEditExif.Text = "Edit EXIF...";
-            this.buEditExif.UseVisualStyleBackColor = true;
-            this.buEditExif.Click += new System.EventHandler(this.BuEditExif_Click);
+            buEditExif.Dock = System.Windows.Forms.DockStyle.Fill;
+            buEditExif.Enabled = false;
+            buEditExif.Location = new System.Drawing.Point(0, 2);
+            buEditExif.Margin = new System.Windows.Forms.Padding(0, 2, 3, 0);
+            buEditExif.Name = "buEditExif";
+            buEditExif.Size = new System.Drawing.Size(157, 40);
+            buEditExif.TabIndex = 1;
+            buEditExif.Text = "Edit EXIF...";
+            buEditExif.UseVisualStyleBackColor = true;
+            buEditExif.Click += BuEditExif_Click;
             // 
             // buAddExif
             // 
-            this.buAddExif.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.buAddExif.Enabled = false;
-            this.buAddExif.Location = new System.Drawing.Point(160, 2);
-            this.buAddExif.Margin = new System.Windows.Forms.Padding(0, 2, 3, 0);
-            this.buAddExif.Name = "buAddExif";
-            this.buAddExif.Size = new System.Drawing.Size(152, 32);
-            this.buAddExif.TabIndex = 2;
-            this.buAddExif.Text = "Add EXIF...";
-            this.buAddExif.UseVisualStyleBackColor = true;
-            this.buAddExif.Click += new System.EventHandler(this.AddExifToolStripMenuItem_Click);
+            buAddExif.Dock = System.Windows.Forms.DockStyle.Fill;
+            buAddExif.Enabled = false;
+            buAddExif.Location = new System.Drawing.Point(160, 2);
+            buAddExif.Margin = new System.Windows.Forms.Padding(0, 2, 3, 0);
+            buAddExif.Name = "buAddExif";
+            buAddExif.Size = new System.Drawing.Size(152, 40);
+            buAddExif.TabIndex = 2;
+            buAddExif.Text = "Add EXIF...";
+            buAddExif.UseVisualStyleBackColor = true;
+            buAddExif.Click += AddExifToolStripMenuItem_Click;
             // 
             // buDeleteExif
             // 
-            this.buDeleteExif.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.buDeleteExif.Enabled = false;
-            this.buDeleteExif.Location = new System.Drawing.Point(315, 2);
-            this.buDeleteExif.Margin = new System.Windows.Forms.Padding(0, 2, 0, 0);
-            this.buDeleteExif.Name = "buDeleteExif";
-            this.buDeleteExif.Size = new System.Drawing.Size(156, 32);
-            this.buDeleteExif.TabIndex = 3;
-            this.buDeleteExif.Text = "Delete EXIF...";
-            this.buDeleteExif.UseVisualStyleBackColor = true;
-            this.buDeleteExif.Click += new System.EventHandler(this.RemoveExifToolStripMenuItem_Click);
+            buDeleteExif.Dock = System.Windows.Forms.DockStyle.Fill;
+            buDeleteExif.Enabled = false;
+            buDeleteExif.Location = new System.Drawing.Point(315, 2);
+            buDeleteExif.Margin = new System.Windows.Forms.Padding(0, 2, 0, 0);
+            buDeleteExif.Name = "buDeleteExif";
+            buDeleteExif.Size = new System.Drawing.Size(156, 40);
+            buDeleteExif.TabIndex = 3;
+            buDeleteExif.Text = "Delete EXIF...";
+            buDeleteExif.UseVisualStyleBackColor = true;
+            buDeleteExif.Click += RemoveExifToolStripMenuItem_Click;
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(864, 571);
-            this.Controls.Add(this.splitContainer1);
-            this.Controls.Add(this.panelControls);
-            this.Controls.Add(this.statusStrip1);
-            this.Controls.Add(this.menuStrip1);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.Name = "Form1";
-            this.Text = "EXIF Image Renamer and Editor (choose a folder, adjust settings, press Preview, t" +
-    "hen Rename)";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
-            this.Load += new System.EventHandler(this.Form1_Load);
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
-            this.panelControls.ResumeLayout(false);
-            this.gbActions.ResumeLayout(false);
-            this.gbActions.PerformLayout();
-            this.gbFileNamePattern.ResumeLayout(false);
-            this.gbFileNamePattern.PerformLayout();
-            this.gbImagesDirectory.ResumeLayout(false);
-            this.gbImagesDirectory.PerformLayout();
-            this.splitContainer1.Panel1.ResumeLayout(false);
-            this.splitContainer1.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
-            this.splitContainer1.ResumeLayout(false);
-            this.gbFileslist.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewFiles)).EndInit();
-            this.gbViewImage.ResumeLayout(false);
-            this.splitContainer2.Panel1.ResumeLayout(false);
-            this.splitContainer2.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
-            this.splitContainer2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.paExifButtons.ResumeLayout(false);
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(864, 714);
+            Controls.Add(splitContainer1);
+            Controls.Add(panelControls);
+            Controls.Add(statusStrip1);
+            Controls.Add(menuStrip1);
+            Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            Name = "Form1";
+            Text = "EXIF Image Renamer and Editor (choose a folder, adjust settings, press Preview, then Rename)";
+            FormClosing += Form1_FormClosing;
+            Load += Form1_Load;
+            statusStrip1.ResumeLayout(false);
+            statusStrip1.PerformLayout();
+            menuStrip1.ResumeLayout(false);
+            menuStrip1.PerformLayout();
+            panelControls.ResumeLayout(false);
+            gbActions.ResumeLayout(false);
+            gbActions.PerformLayout();
+            gbFileNamePattern.ResumeLayout(false);
+            gbFileNamePattern.PerformLayout();
+            gbImagesDirectory.ResumeLayout(false);
+            gbImagesDirectory.PerformLayout();
+            splitContainer1.Panel1.ResumeLayout(false);
+            splitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
+            splitContainer1.ResumeLayout(false);
+            gbFileslist.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dataGridViewFiles).EndInit();
+            panelSelectButtons.ResumeLayout(false);
+            panelSelectButtons.PerformLayout();
+            gbViewImage.ResumeLayout(false);
+            splitContainer2.Panel1.ResumeLayout(false);
+            splitContainer2.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)splitContainer2).EndInit();
+            splitContainer2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            paExifButtons.ResumeLayout(false);
+            ResumeLayout(false);
+            PerformLayout();
 
         }
 

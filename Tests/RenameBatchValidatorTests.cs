@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using ExifFileRenamer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -67,5 +66,42 @@ namespace ExifRenamer.Tests
 
             Assert.AreEqual(0, conflicts.Count);
         }
+        [TestMethod]
+        public void FindConflicts_TargetDirectory_IsReported()
+        {
+            var source = CreateFile("source.jpg", "target.jpg");
+            Directory.CreateDirectory(Path.Combine(_testDir, "target.jpg"));
+
+            var conflicts = RenameBatchValidator.FindConflicts(new[] { source });
+
+            Assert.AreEqual(1, conflicts.Count);
+            StringAssert.Contains(conflicts[0], "Target path is a directory");
+        }
+
+        [TestMethod]
+        public void FindConflicts_DuplicateTargets_AreComparedCaseInsensitively()
+        {
+            var first = CreateFile("first.jpg", "Target.jpg");
+            var second = CreateFile("second.jpg", "target.JPG");
+
+            var conflicts = RenameBatchValidator.FindConflicts(new[] { first, second });
+
+            Assert.AreEqual(1, conflicts.Count);
+            StringAssert.Contains(conflicts[0], "Multiple files would be renamed");
+        }
+
+        [TestMethod]
+        public void FindConflicts_NullAndBlankTargets_AreIgnored()
+        {
+            var source = CreateFile("source.jpg", "unused.jpg");
+            source.NewFileFullName = null;
+            var another = CreateFile("another.jpg", "ignored.jpg");
+            another.NewFileFullName = " ";
+
+            var conflicts = RenameBatchValidator.FindConflicts(new[] { null, source, another });
+
+            Assert.AreEqual(0, conflicts.Count);
+        }
+
     }
 }

@@ -211,6 +211,11 @@ namespace ExifFileRenamer
             return new TiffExifEditor(tiff).ApplyCore(ifd0Changes, exifIfdChanges);
         }
 
+        /// <summary>
+        /// Initializes a new instance of the TiffExifEditor class with the given TIFF block.   
+        /// </summary>
+        /// <param name="tiff">The TIFF block to edit.</param>
+        /// <exception cref="InvalidOperationException"></exception>
         private TiffExifEditor(byte[] tiff)
         {
             if (tiff == null)
@@ -229,6 +234,12 @@ namespace ExifFileRenamer
             }
         }
 
+        /// <summary>
+        /// Applies the requested changes to IFD0 and the Exif sub-IFD, returning the new TIFF block.
+        /// </summary>
+        /// <param name="ifd0Changes">The changes to apply to IFD0.</param>
+        /// <param name="exifIfdChanges">The changes to apply to the Exif sub-IFD.</param>
+        /// <returns>The new TIFF block, or null if the result would contain no EXIF data.</returns>
         private byte[] ApplyCore(List<ExifTagChange> ifd0Changes, List<ExifTagChange> exifIfdChanges)
         {
             int ifd0Off = (int)ReadU32(4);
@@ -363,6 +374,13 @@ namespace ExifFileRenamer
             return ifdOff;
         }
 
+        /// <summary>
+        /// Patches an existing IFD entry with new type and value data. 
+        /// If the new value is larger than 4 bytes, it is stored in external 
+        /// storage and the entry's offset is updated accordingly.
+        /// </summary>
+        /// <param name="entryOff">The offset of the entry to patch.</param>
+        /// <param name="change">The change to apply.</param>
         private void PatchEntry(int entryOff, ExifTagChange change)
         {
             int oldType = ReadU16(entryOff + 2);
@@ -389,6 +407,13 @@ namespace ExifFileRenamer
             }
         }
 
+        /// <summary>
+        /// Finds the offset of an IFD entry with the given tag, or returns -1 if not found.    
+        /// </summary>
+        /// <param name="ifdOff">The offset of the IFD.</param>
+        /// <param name="tag">The tag to find.</param>
+        /// <returns>The offset of the entry, or -1 if not found.</returns>
+        /// <exception cref="InvalidOperationException"></exception>
         private int FindEntry(int ifdOff, int tag)
         {
             if (ifdOff <= 0 || ifdOff + 2 > _buf.Count)
@@ -403,6 +428,11 @@ namespace ExifFileRenamer
             return -1;
         }
 
+        /// <summary>
+        /// Returns the tag number of an item, which can be either a raw 12-byte IFD entry or an ExifTagChange.
+        /// </summary>
+        /// <param name="item">The item for which to get the tag number.</param>
+        /// <returns>The tag number.</returns>
         private int ItemTag(object item)
         {
             var raw = item as byte[];
@@ -411,12 +441,22 @@ namespace ExifFileRenamer
             return ((ExifTagChange)item).Tag;
         }
 
+        /// <summary>
+        /// Returns the number of values in the given ExifTagChange, based on its type and data length.
+        /// </summary>
+        /// <param name="change">The ExifTagChange for which to count values.</param>
+        /// <returns>The number of values.</returns>
         private static int ValueCount(ExifTagChange change)
         {
             var size = TypeSize(change.Type);
             return size > 1 ? change.Data.Length / size : change.Data.Length;
         }
 
+        /// <summary>
+        /// Returns the size in bytes of a single value of the given TIFF type.
+        /// </summary>
+        /// <param name="type">The TIFF type.</param>
+        /// <returns>The size in bytes.</returns>
         private static int TypeSize(int type)
         {
             switch (type)
@@ -430,6 +470,12 @@ namespace ExifFileRenamer
 
         #region Buffer helpers
 
+        /// <summary>
+        /// Returns a copy of the raw bytes from the buffer, for example to preserve an untouched IFD entry.
+        /// </summary>
+        /// <param name="offset">The offset from which to start copying.</param>
+        /// <param name="length">The number of bytes to copy.</param>
+        /// <returns>The array of copied bytes.</returns>
         private byte[] GetRaw(int offset, int length)
         {
             CheckRange(offset, length);
@@ -439,6 +485,11 @@ namespace ExifFileRenamer
             return result;
         }
 
+        /// <summary>
+        /// Appends data to the buffer, aligning the start of the data to an even offset as required by the TIFF specification.
+        /// </summary>
+        /// <param name="data">The data to append.</param>
+        /// <returns>The offset of the appended data.</returns>
         private int AppendAligned(byte[] data)
         {
             if ((_buf.Count & 1) == 1)
@@ -448,6 +499,11 @@ namespace ExifFileRenamer
             return off;
         }
 
+        /// <summary>
+        /// Reads a 16-bit unsigned integer from the buffer at the specified offset, taking into account the endianness of the TIFF data.
+        /// </summary>
+        /// <param name="offset">The offset from which to read.</param>
+        /// <returns>The 16-bit unsigned integer.</returns>
         private int ReadU16(int offset)
         {
             CheckRange(offset, 2);
@@ -456,6 +512,11 @@ namespace ExifFileRenamer
                 : (_buf[offset] << 8) | _buf[offset + 1];
         }
 
+        /// <summary>
+        /// Reads a 32-bit unsigned integer from the buffer at the specified offset, taking into account the endianness of the TIFF data.
+        /// </summary>
+        /// <param name="offset">The offset from which to read.</param>
+        /// <returns>The 32-bit unsigned integer.</returns>
         private uint ReadU32(int offset)
         {
             CheckRange(offset, 4);
@@ -464,12 +525,22 @@ namespace ExifFileRenamer
                 : (uint)((_buf[offset] << 24) | (_buf[offset + 1] << 16) | (_buf[offset + 2] << 8) | _buf[offset + 3]);
         }
 
+        /// <summary>
+        /// Writes a single byte to the buffer at the specified offset.
+        /// </summary>
+        /// <param name="offset">The offset at which to write.</param>
+        /// <param name="value">The byte value to write.</param>
         private void WriteByte(int offset, byte value)
         {
             CheckRange(offset, 1);
             _buf[offset] = value;
         }
 
+        /// <summary>
+        /// Writes a 16-bit unsigned integer to the buffer at the specified offset, taking into account the endianness of the TIFF data.
+        /// </summary>
+        /// <param name="offset">The offset at which to write.</param>
+        /// <param name="value">The 16-bit unsigned integer to write.</param>
         private void WriteU16(int offset, ushort value)
         {
             CheckRange(offset, 2);
@@ -477,6 +548,11 @@ namespace ExifFileRenamer
             else { _buf[offset] = (byte)(value >> 8); _buf[offset + 1] = (byte)value; }
         }
 
+        /// <summary>
+        /// Writes a 32-bit unsigned integer to the buffer at the specified offset, taking into account the endianness of the TIFF data.    
+        /// </summary>
+        /// <param name="offset">The offset at which to write.</param>
+        /// <param name="value">The 32-bit unsigned integer to write.</param>
         private void WriteU32(int offset, uint value)
         {
             CheckRange(offset, 4);
@@ -485,6 +561,11 @@ namespace ExifFileRenamer
                 _buf[offset + i] = bytes[i];
         }
 
+        /// <summary>
+        /// Returns the byte array representation of a 32-bit unsigned integer, taking into account the endianness of the TIFF data.
+        /// </summary>
+        /// <param name="value">The 32-bit unsigned integer for which to get byte representation.</param>
+        /// <returns>The byte array.</returns>
         private byte[] U32Bytes(uint value)
         {
             return _le
@@ -492,17 +573,31 @@ namespace ExifFileRenamer
                 : new[] { (byte)(value >> 24), (byte)(value >> 16), (byte)(value >> 8), (byte)value };
         }
 
+        /// <summary>
+        /// Appends a 16-bit unsigned integer to the end of the buffer, taking into account the endianness of the TIFF data.    
+        /// </summary>
+        /// <param name="value">The 16-bit unsigned integer to append.</param>
         private void AppendU16(ushort value)
         {
             if (_le) { _buf.Add((byte)value); _buf.Add((byte)(value >> 8)); }
             else { _buf.Add((byte)(value >> 8)); _buf.Add((byte)value); }
         }
 
+        /// <summary>
+        /// Appends a 32-bit unsigned integer to the end of the buffer, taking into account the endianness of the TIFF data.
+        /// </summary>
+        /// <param name="value">The 32-bit unsigned integer to append.</param>
         private void AppendU32(uint value)
         {
             _buf.AddRange(U32Bytes(value));
         }
 
+        /// <summary>
+        /// Checks if the specified range (offset and length) is within the bounds of the buffer. Throws an exception if the range is invalid.
+        /// </summary>
+        /// <param name="offset">The offset at which to check.</param>
+        /// <param name="length">The length of the range to check.</param>
+        /// <exception cref="InvalidOperationException"></exception>
         private void CheckRange(int offset, int length)
         {
             if (offset < 0 || offset + length > _buf.Count)
