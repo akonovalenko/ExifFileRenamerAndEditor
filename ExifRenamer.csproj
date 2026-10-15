@@ -2,6 +2,8 @@
 
 	<PropertyGroup>
 		<TargetFramework>net10.0-windows7.0</TargetFramework>
+		<!-- Disable CA1416 (platform compatibility) analyzer across the project per user request -->
+		<NoWarn>$(NoWarn);CA1416</NoWarn>
 		<UseWindowsForms>true</UseWindowsForms>
 		<OutputType>WinExe</OutputType>
 		<RootNamespace>ExifImageRenamer</RootNamespace>
@@ -40,6 +42,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<Compile Include="Code\ExifTagChange.cs" />
+		<Compile Include="Code\TiffExifEditor.cs" />
+		<Compile Include="Model\AddExifDateSource.cs" />
+		<Compile Include="Model\AddExifRequest.cs" />
 		<Compile Include="Model\ApplicationState.cs" />
 		<Compile Include="Common\Constants.cs" />
 		<Compile Include="Code\FileNameTemplateFactory.cs" />
@@ -93,6 +99,7 @@
 			<DependentUpon>Resources.resx</DependentUpon>
 		</Compile>
 		<Compile Include="TestFriends.cs" />
+		<EmbeddedResource Include="Forms\AboutForm.resx" />
 		<EmbeddedResource Include="Forms\ExifEditForm.resx" />
 		<EmbeddedResource Include="Forms\Form1.resx">
 			<SubType>Designer</SubType>
@@ -100,6 +107,7 @@
 		</EmbeddedResource>
 		<EmbeddedResource Include="Forms\HelpForm.resx" />
 		<EmbeddedResource Include="Forms\ImagePreviewForm.resx" />
+		<EmbeddedResource Include="Forms\TimeShiftForm.resx" />
 		<EmbeddedResource Include="Properties\Resources.resx">
 			<Generator>ResXFileCodeGenerator</Generator>
 			<SubType>Designer</SubType>

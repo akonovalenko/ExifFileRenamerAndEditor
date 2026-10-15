@@ -71,3 +71,9 @@ dist/
 _IISExpress/
 *.vspscc
 *.vsss
+
+# Test build outputs (per-request)
+Tests/bin/
+Tests/obj/
+tests/bin/
+tests/obj/

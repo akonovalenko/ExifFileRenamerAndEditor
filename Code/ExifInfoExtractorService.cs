@@ -5,7 +5,7 @@ using System.Drawing.Imaging;
 using System.Globalization;
 using System.Text;
 
-namespace ExifFileRenamer
+namespace ExifImageRenamer
 {
     /// <summary>
     /// Service class responsible for extracting EXIF information from image files.
@@ -203,19 +203,19 @@ namespace ExifFileRenamer
                                     break;
 
                                 case 34850: // ExposureProgram (SHORT)
-                                    switch (value)
+                                    result.ExposureProgram = value switch
                                     {
-                                        case "0": result.ExposureProgram = "Not defined"; break;
-                                        case "1": result.ExposureProgram = "Manual"; break;
-                                        case "2": result.ExposureProgram = "Normal program"; break;
-                                        case "3": result.ExposureProgram = "Aperture priority"; break;
-                                        case "4": result.ExposureProgram = "Shutter priority"; break;
-                                        case "5": result.ExposureProgram = "Creative program"; break;
-                                        case "6": result.ExposureProgram = "Action program"; break;
-                                        case "7": result.ExposureProgram = "Portrait mode"; break;
-                                        case "8": result.ExposureProgram = "Landscape mode"; break;
-                                        default: result.ExposureProgram = value; break;
-                                    }
+                                        "0" => "Not defined",
+                                        "1" => "Manual",
+                                        "2" => "Normal program",
+                                        "3" => "Aperture priority",
+                                        "4" => "Shutter priority",
+                                        "5" => "Creative program",
+                                        "6" => "Action program",
+                                        "7" => "Portrait mode",
+                                        "8" => "Landscape mode",
+                                        _ => value,
+                                    };
                                     break;
 
                                 case 37380: // ExposureBiasValue (SRATIONAL)

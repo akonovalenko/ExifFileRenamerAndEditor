@@ -1,4 +1,5 @@
 ﻿using ExifFileRenamer.Model;
+using ExifImageRenamer;
 using ExifImageRenamer.Forms;
 using ExifImageRenamer.Model;
 using System;
