@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFramework>net10.0-windows7.0</TargetFramework>
@@ -55,30 +55,33 @@
 		<Compile Include="Code\ExifWriterService.cs" />
 		<Compile Include="Code\JpegExifRewriter.cs" />
 		<Compile Include="Model\ExifEditValues.cs" />
-		<Compile Include="ExifEditForm.cs">
+		<Compile Include="Forms\ExifEditForm.cs">
 			<SubType>Form</SubType>
 		</Compile>
-		<Compile Include="AboutForm.cs">
+		<Compile Include="Forms\AboutForm.cs">
 			<SubType>Form</SubType>
 		</Compile>
-		<Compile Include="TimeShiftForm.cs">
+		<Compile Include="Forms\TimeShiftForm.cs">
 			<SubType>Form</SubType>
 		</Compile>
-		<Compile Include="AddExifForm.cs">
+		<Compile Include="Forms\AddExifForm.cs">
 			<SubType>Form</SubType>
 		</Compile>
 		<Compile Include="Code\RegistrySettingsProvider.cs" />
 		<Compile Include="Code\RenameBatchValidator.cs" />
-		<Compile Include="Form1.cs">
+		<Compile Include="Forms\ImagePreviewForm.cs">
 			<SubType>Form</SubType>
 		</Compile>
-		<Compile Include="Form1.Designer.cs">
+		<Compile Include="Forms\Form1.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Include="Forms\Form1.Designer.cs">
 			<DependentUpon>Form1.cs</DependentUpon>
 		</Compile>
-		<Compile Include="HelpForm.cs">
+		<Compile Include="Forms\HelpForm.cs">
 			<SubType>Form</SubType>
 		</Compile>
-		<Compile Include="HelpForm.Designer.cs">
+		<Compile Include="Forms\HelpForm.Designer.cs">
 			<DependentUpon>HelpForm.cs</DependentUpon>
 		</Compile>
 		<Compile Include="Model\ProcessingFileInfo.cs" />
@@ -90,12 +93,13 @@
 			<DependentUpon>Resources.resx</DependentUpon>
 		</Compile>
 		<Compile Include="TestFriends.cs" />
-		<EmbeddedResource Include="ExifEditForm.resx" />
-		<EmbeddedResource Include="Form1.resx">
+		<EmbeddedResource Include="Forms\ExifEditForm.resx" />
+		<EmbeddedResource Include="Forms\Form1.resx">
 			<SubType>Designer</SubType>
 			<DependentUpon>Form1.cs</DependentUpon>
 		</EmbeddedResource>
-		<EmbeddedResource Include="HelpForm.resx" />
+		<EmbeddedResource Include="Forms\HelpForm.resx" />
+		<EmbeddedResource Include="Forms\ImagePreviewForm.resx" />
 		<EmbeddedResource Include="Properties\Resources.resx">
 			<Generator>ResXFileCodeGenerator</Generator>
 			<SubType>Designer</SubType>

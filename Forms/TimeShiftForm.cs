@@ -2,7 +2,7 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace ExifFileRenamer
+namespace ExifImageRenamer.Forms
 {
     /// <summary>
     /// Dialog for shifting the EXIF date/time of a batch of files by a fixed offset

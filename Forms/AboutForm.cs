@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Reflection;
 using System.Windows.Forms;
 
-namespace ExifFileRenamer
+namespace ExifImageRenamer.Forms
 {
     /// <summary>
     /// About dialog: product name, version, author and a clickable e-mail link.

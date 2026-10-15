@@ -3,7 +3,7 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace ExifFileRenamer
+namespace ExifImageRenamer.Forms
 {
     /// <summary>
     /// Modal dialog for editing writable EXIF fields of a single image file.

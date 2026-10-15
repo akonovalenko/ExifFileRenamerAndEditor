@@ -1,4 +1,5 @@
-using ExifFileRenamer.Model;
+﻿using ExifFileRenamer.Model;
+using ExifImageRenamer.Forms;
 using ExifImageRenamer.Model;
 using System;
 using System.Collections.Generic;
@@ -29,6 +30,7 @@ namespace ExifFileRenamer
         private int _renameTotalCount;
         private int _renameProcessedCount;
         private int _renameFailedCount;
+        private string _currentPreviewFileName;
         private readonly ToolTip _toolTip = new ToolTip();
         #endregion
 
@@ -89,6 +91,8 @@ namespace ExifFileRenamer
 
             this.FileNameTemplate_PropertyChanged(null, null);
             this.InitializeDataGrid();
+            dataGridViewFiles.CellDoubleClick += DataGridViewFiles_CellDoubleClick;
+            pictureBox1.DoubleClick += PictureBox1_DoubleClick;
 
             // Tooltips
             _toolTip.SetToolTip(buRefresh, "Reload file list from the selected folder (Ctrl+R)");
@@ -427,6 +431,7 @@ namespace ExifFileRenamer
 
         private void ShowPicture(string fileName)
         {
+            _currentPreviewFileName = fileName;
             var oldImage = pictureBox1.Image;
             pictureBox1.Image = null;
             oldImage?.Dispose();
@@ -438,6 +443,34 @@ namespace ExifFileRenamer
                 var bmp = new Bitmap(img);
                 ApplyExifOrientation(bmp);
                 pictureBox1.Image = bmp;
+            }
+        }
+
+        private void DataGridViewFiles_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.RowIndex >= dataGridViewFiles.Rows.Count) return;
+            if (dataGridViewFiles.Rows[e.RowIndex].DataBoundItem is ProcessingFileInfo file)
+                ShowImagePreviewDialog(file.FullName);
+        }
+
+        private void PictureBox1_DoubleClick(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(_currentPreviewFileName) && File.Exists(_currentPreviewFileName))
+                ShowImagePreviewDialog(_currentPreviewFileName);
+        }
+
+        private void ShowImagePreviewDialog(string fileName)
+        {
+            if (string.IsNullOrWhiteSpace(fileName) || !File.Exists(fileName)) return;
+            try
+            {
+                using (var dialog = new ImagePreviewForm(fileName))
+                    dialog.ShowDialog(this);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(this, $"Unable to display image: {ex.Message}", "Image Preview",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
