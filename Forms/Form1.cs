@@ -1,5 +1,4 @@
 ﻿using ExifFileRenamer.Model;
-using ExifImageRenamer;
 using ExifImageRenamer.Forms;
 using ExifImageRenamer.Model;
 using ExifImageRenamer.Services;
@@ -9,8 +8,6 @@ using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ExifFileRenamer
@@ -131,6 +128,12 @@ namespace ExifFileRenamer
             dataGridViewFiles.RowHeadersVisible = false;
             dataGridViewFiles.ColumnHeadersVisible = true;
 
+            // Allow the user to resize columns. By default some columns used Fill autosizing
+            // which can make widths feel fixed; disable automatic full-table autosizing so
+            // the user can adjust column widths at runtime.
+            dataGridViewFiles.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+            dataGridViewFiles.AllowUserToResizeColumns = true;
+
             var colSelect = new DataGridViewCheckBoxColumn
             {
                 DataPropertyName = "Selected",
@@ -141,24 +144,28 @@ namespace ExifFileRenamer
             };
 
             var colOldName = AddColumn("SourceFileName", "Old file name");
-            colOldName.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            colOldName.FillWeight = 35;
+            colOldName.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            colOldName.Width = 140;
             colOldName.MinimumWidth = 120;
+            colOldName.Resizable = DataGridViewTriState.True;
 
             var colNewName = AddColumn("TargetFileName", "New file name");
-            colNewName.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            colNewName.FillWeight = 35;
+            colNewName.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            colNewName.Width = 140;
             colNewName.MinimumWidth = 120;
+            colNewName.Resizable = DataGridViewTriState.True;
 
             var colDateTime = AddColumn("ImageDateTime", "Image DateTime");
-            colDateTime.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            colDateTime.FillWeight = 20;
-            colDateTime.MinimumWidth = 130;
+            colDateTime.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            colDateTime.Width = 120;
+            colDateTime.MinimumWidth = 120;
+            colDateTime.Resizable = DataGridViewTriState.True;
 
             var colStatus = AddColumn("Status", "Status");
-            colStatus.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            colStatus.FillWeight = 10;
+            colStatus.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            colStatus.Width = 120;
             colStatus.MinimumWidth = 80;
+            colStatus.Resizable = DataGridViewTriState.True;
 
             dataGridViewFiles.Columns.Add(colSelect);
             dataGridViewFiles.Columns.Add(colOldName);

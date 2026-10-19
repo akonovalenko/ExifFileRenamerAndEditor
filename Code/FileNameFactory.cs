@@ -137,12 +137,12 @@ namespace ExifFileRenamer
                 else
                 {
                     DateTime photoCreatedDateTime;
-                    //if (this._fileNameCorrector != null)
-                    //{
-                    //   photoCreatedDateTime= this._fileNameCorrector.GetCorectedTime(this._imageFileInfo.Exif);
-                    //}
-                    //else 
-                    photoCreatedDateTime = fileItem.Exif.OriginalDateTime;
+                    // if EXIF exists but the OriginalDateTime is empty (default), fall back to filesystem times
+                    photoCreatedDateTime = fileItem.Exif?.OriginalDateTime ?? default;
+                    if (photoCreatedDateTime == default(DateTime))
+                    {
+                        photoCreatedDateTime = fileItem.CreatedOn;
+                    }
 
                     year = photoCreatedDateTime.Year;
                     month = photoCreatedDateTime.Month;
