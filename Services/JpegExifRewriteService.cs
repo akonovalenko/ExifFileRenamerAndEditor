@@ -1,15 +1,16 @@
+using ExifFileRenamer;
 using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace ExifFileRenamer
+namespace ExifImageRenamer.Services
 {
 
     /// <summary>
     /// Rewrites the EXIF (APP1) segment of a JPEG file without re-encoding image data:
     /// only the metadata segment is replaced, compressed pixel data is copied byte for byte.
     /// </summary>
-    internal static class JpegExifRewriter
+    internal static class JpegExifRewriteService
     {
         private static readonly byte[] ExifSignature = { 0x45, 0x78, 0x69, 0x66, 0x00, 0x00 }; // "Exif\0\0"
         private const int MAX_TIFF_LENGTH = 65535 - 2 - 6; // segment length field minus signature

@@ -2,6 +2,7 @@
 using ExifImageRenamer;
 using ExifImageRenamer.Forms;
 using ExifImageRenamer.Model;
+using ExifImageRenamer.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -24,10 +25,8 @@ namespace ExifFileRenamer
         private BackgroundWorker analyzeBgWorker;
         private BackgroundWorker exifBatchBgWorker;
         private List<KeyValuePair<string, string>> _lastRenameBatch; // old full name → new full name
-        private ExifInfoExtractorService _exifInfoExtractor;
-        private ImageInfoExtractorService _imageInfoExtractor;
-        private long _currentProcessedCount;
-        private int _lastReportedPercent;
+        private FileScanService _fileScanService;
+        private readonly RenameService _renameService = new RenameService();
         private int _renameTotalCount;
         private int _renameProcessedCount;
         private int _renameFailedCount;
@@ -86,8 +85,7 @@ namespace ExifFileRenamer
             );
             this._fileNameTemplate.PropertyChanged += FileNameTemplate_PropertyChanged;
 
-            this._exifInfoExtractor = new ExifInfoExtractorService();
-            this._imageInfoExtractor = new ImageInfoExtractorService();
+            this._fileScanService = new FileScanService();
             this.appState = ApplicationState.GetInstance();
 
             this.FileNameTemplate_PropertyChanged(null, null);
@@ -314,8 +312,6 @@ namespace ExifFileRenamer
 
         void RefreshBgWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            _currentProcessedCount = 0;
-            _lastReportedPercent = -1;
             this.UpdateFileList();
         }
 
@@ -332,80 +328,32 @@ namespace ExifFileRenamer
 
         #region File processing
 
-        /// <summary>
-        /// Extracts info for one file. Thread-safe: called concurrently from Parallel.For.
-        /// Returns null when the file does not match the extension filter.
-        /// </summary>
-        internal ProcessingFileInfo ProcessFile(FileInfo fi, string[] extFile, int length)
-        {
-            try
-            {
-                if (Array.IndexOf(extFile, fi.Extension.TrimStart('.').ToUpper()) < 0 && extFile[0] != "*.*")
-                    return null;
-
-                var fileInfo = this.CreateFileInfo(fi);
-
-                var count = Interlocked.Increment(ref _currentProcessedCount);
-                if (length > 0)
-                {
-                    // report only when the percent value changes to avoid flooding the UI queue
-                    var percent = (int)(count * 100L / length);
-                    if (Interlocked.Exchange(ref _lastReportedPercent, percent) != percent || count == length)
-                        refreshBgWorker.ReportProgress(percent, string.Format("{0}/{1}", count, length));
-                }
-                return fileInfo;
-            }
-            catch (Exception ex)
-            {
-                return new ProcessingFileInfo(fi) { ErrorText = ex.ToString() };
-            }
-        }
-
         void UpdateFileList()
         {
             string selectedPath = null;
-            string[] extFile = null;
-            bool includeSubdirs = false;
+            string[] extensions = null;
+            bool includeSubdirectories = false;
 
             Invoke(new Action(() =>
             {
                 dataGridViewFiles.DataSource = null;
                 appState.ImagesFiles.Clear();
-                selectedPath = folderBrowserDialog1.SelectedPath;
-                extFile = cbFileTypes.Text.ToUpper().Split(';');
-                includeSubdirs = chIncludeSubdirectories.Checked;
+                selectedPath = laPath.Text;
+                extensions = cbFileTypes.Text.ToUpperInvariant().Split(';');
+                includeSubdirectories = chIncludeSubdirectories.Checked;
             }));
 
-            if (string.IsNullOrEmpty(selectedPath) || !Directory.Exists(selectedPath))
-                return;
-
-            var di = new DirectoryInfo(selectedPath);
             var watch = System.Diagnostics.Stopwatch.StartNew();
-            FileInfo[] files = di.GetFiles("*", includeSubdirs
-                ? SearchOption.AllDirectories
-                : SearchOption.TopDirectoryOnly);
-
-            Invoke(new Action(() => this.StatisticsStartProcess(files.Length, $"Start processing {files.Length} images")));
-
-            // extraction is I/O + decode bound: process files on all CPU cores;
-            // the indexed results array keeps the original file order
-            var results = new ProcessingFileInfo[files.Length];
-            var parallelOptions = new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount };
-            Parallel.For(0, files.Length, parallelOptions, (i, loopState) =>
-            {
-                if (refreshBgWorker.CancellationPending)
-                {
-                    loopState.Stop();
-                    return;
-                }
-                results[i] = this.ProcessFile(files[i], extFile, files.Length);
-            });
+            var results = _fileScanService.Scan(
+                selectedPath,
+                extensions,
+                includeSubdirectories,
+                () => refreshBgWorker.CancellationPending,
+                count => Invoke(new Action(() => StatisticsStartProcess(count, $"Start processing {count} images"))),
+                (count, total) => refreshBgWorker.ReportProgress(total > 0 ? count * 100 / total : 0, $"{count}/{total}"));
 
             foreach (var fileInfo in results)
-            {
-                if (fileInfo != null)
-                    appState.ImagesFiles.Add(fileInfo);
-            }
+                appState.ImagesFiles.Add(fileInfo);
 
             var source = new BindingSource { DataSource = appState.ImagesFiles };
             watch.Stop();
@@ -415,7 +363,6 @@ namespace ExifFileRenamer
             {
                 dataGridViewFiles.DataSource = typeof(List<ProcessingFileInfo>);
                 dataGridViewFiles.DataSource = source;
-                // ensure the checkbox column is editable and shows initial values
                 if (dataGridViewFiles.Columns.Contains("Select"))
                 {
                     var col = dataGridViewFiles.Columns["Select"] as DataGridViewCheckBoxColumn;
@@ -442,7 +389,7 @@ namespace ExifFileRenamer
             using (var img = Image.FromStream(ms))
             {
                 var bmp = new Bitmap(img);
-                ApplyExifOrientation(bmp);
+                ImageOrientationService.ApplyExifOrientation(bmp);
                 pictureBox1.Image = bmp;
             }
         }
@@ -473,28 +420,6 @@ namespace ExifFileRenamer
                 MessageBox.Show(this, $"Unable to display image: {ex.Message}", "Image Preview",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
-
-        private static void ApplyExifOrientation(Bitmap bmp)
-        {
-            const int ORIENTATION_TAG = 274;
-            try
-            {
-                var prop = bmp.GetPropertyItem(ORIENTATION_TAG);
-                if (prop?.Value == null || prop.Value.Length < 2) return;
-                var orientation = BitConverter.ToInt16(prop.Value, 0);
-                switch (orientation)
-                {
-                    case 2: bmp.RotateFlip(RotateFlipType.RotateNoneFlipX); break;
-                    case 3: bmp.RotateFlip(RotateFlipType.Rotate180FlipNone); break;
-                    case 4: bmp.RotateFlip(RotateFlipType.RotateNoneFlipY); break;
-                    case 5: bmp.RotateFlip(RotateFlipType.Rotate270FlipX); break;
-                    case 6: bmp.RotateFlip(RotateFlipType.Rotate90FlipNone); break;
-                    case 7: bmp.RotateFlip(RotateFlipType.Rotate90FlipX); break;
-                    case 8: bmp.RotateFlip(RotateFlipType.Rotate270FlipNone); break;
-                }
-            }
-            catch (ArgumentException) { } // tag not present in this image
         }
 
         // Показываем все поля EXIF при чтении, в том числе пустые.
@@ -637,19 +562,7 @@ namespace ExifFileRenamer
         /// </summary>
         private ProcessingFileInfo CreateFileInfo(FileInfo fileInfo)
         {
-            if (this._exifInfoExtractor.TryExtractExifInfo(fileInfo.FullName, out ExifInfo exif, out string errorExif))
-                return new ProcessingFileInfo(fileInfo, exif, errorExif);
-
-            if (!string.IsNullOrWhiteSpace(errorExif))
-                return new ProcessingFileInfo(fileInfo)
-                {
-                    ErrorText = $"Unable to read image metadata: {errorExif}"
-                };
-
-            if (this._imageInfoExtractor.TryExtractImageInfo(fileInfo.FullName, out ImageInfo image, out string errorImage))
-                return new ProcessingFileInfo(fileInfo, image, errorImage);
-
-            return new ProcessingFileInfo(fileInfo);
+            return _fileScanService.CreateFileInfo(fileInfo);
         }
 
 
@@ -840,44 +753,22 @@ namespace ExifFileRenamer
             bool skipUnprocessed = false;
             Invoke(new Action(() => skipUnprocessed = chSkipUnprocessed.Checked));
 
-            var journal = new List<KeyValuePair<string, string>>();
-            bool canceled = false;
-            for (int i = 0; i < appState.ImagesFiles.Count; i++)
-            {
-                if (renameBgWorker.CancellationPending)
-                {
-                    canceled = true;
-                    break;
-                }
+            var candidates = appState.ImagesFiles
+                .OfType<ProcessingFileInfo>()
+                .Where(fi => fi.Selected
+                    && !(skipUnprocessed && !fi.IsExifImage)
+                    && fi.Status != Constants.NO_CHANGES);
 
-                ProcessingFileInfo fi = (ProcessingFileInfo)appState.ImagesFiles[i];
-                if (!fi.Selected)
-                    continue;
-                if ((!fi.IsExifImage && skipUnprocessed) || fi.Status == Constants.NO_CHANGES)
-                    continue;
+            var result = _renameService.Rename(
+                candidates,
+                () => renameBgWorker.CancellationPending,
+                (completed, total) => renameBgWorker.ReportProgress(total > 0 ? completed * 100 / total : 100,
+                    string.Format("{0}/{1}", completed, total)));
 
-                try
-                {
-                    File.Move(fi.FullName, fi.NewFileFullName);
-                    journal.Add(new KeyValuePair<string, string>(fi.FullName, fi.NewFileFullName));
-                    fi.CommitRename();
-                    fi.Status = "renamed";
-                    _renameProcessedCount++;
-                }
-                catch (Exception ex)
-                {
-                    _renameFailedCount++;
-                    fi.Status = ex.Message;
-                }
-
-                int completed = _renameProcessedCount + _renameFailedCount;
-                int percent = _renameTotalCount > 0 ? completed * 100 / _renameTotalCount : 100;
-                renameBgWorker.ReportProgress(percent, string.Format("{0}/{1}", completed, _renameTotalCount));
-            }
-
-            _lastRenameBatch = journal.Count > 0 ? journal : null;
-
-            e.Cancel = canceled;
+            _lastRenameBatch = result.Journal.Count > 0 ? result.Journal : null;
+            _renameProcessedCount = result.RenamedCount;
+            _renameFailedCount = result.FailedCount;
+            e.Cancel = result.Canceled;
         }
 
         void RenameWorkerDoWork(object sender, DoWorkEventArgs e)
@@ -929,19 +820,7 @@ namespace ExifFileRenamer
                 "Undo Last Rename", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
                 return;
 
-            int restored = 0;
-            for (int i = batch.Count - 1; i >= 0; i--)
-            {
-                try
-                {
-                    File.Move(batch[i].Value, batch[i].Key);
-                    restored++;
-                }
-                catch
-                {
-                    // file was moved, renamed again or locked — reported in the summary below
-                }
-            }
+            int restored = this._renameService.Undo(batch.AsEnumerable().Reverse());
 
             _lastRenameBatch = null;
             undoRenameToolStripMenuItem.Enabled = false;

@@ -1,3 +1,4 @@
+﻿using ExifImageRenamer.Services;
 using System;
 using System.Drawing;
 using System.IO;
@@ -53,7 +54,7 @@ namespace ExifImageRenamer.Forms
             using (var image = Image.FromStream(stream))
             {
                 var bitmap = new Bitmap(image);
-                ApplyExifOrientation(bitmap);
+                ImageOrientationService.ApplyExifOrientation(bitmap);
                 this._pictureBox.Image = bitmap;
             }
         }
@@ -80,33 +81,5 @@ namespace ExifImageRenamer.Forms
             base.Dispose(disposing);
         }
 
-        /// <summary>
-        /// Apply the EXIF Orientation (tag 0x0112 / 274) to a Bitmap by performing the corresponding RotateFlip
-        /// operations.
-        /// </summary>
-        /// <remarks>If the orientation property is missing or invalid, no changes are made.
-        /// ArgumentException thrown while retrieving EXIF data is ignored. Handles EXIF orientation values 2–8; value 1
-        /// is treated as no rotation.</remarks>
-        /// <param name="bitmap">Bitmap to adjust in place according to its EXIF Orientation tag.</param>
-        private static void ApplyExifOrientation(Bitmap bitmap)
-        {
-            const int OrientationTag = 274;
-            try
-            {
-                var property = bitmap.GetPropertyItem(OrientationTag);
-                if (property?.Value == null || property.Value.Length < 2) return;
-                switch (BitConverter.ToInt16(property.Value, 0))
-                {
-                    case 2: bitmap.RotateFlip(RotateFlipType.RotateNoneFlipX); break;
-                    case 3: bitmap.RotateFlip(RotateFlipType.Rotate180FlipNone); break;
-                    case 4: bitmap.RotateFlip(RotateFlipType.RotateNoneFlipY); break;
-                    case 5: bitmap.RotateFlip(RotateFlipType.Rotate270FlipX); break;
-                    case 6: bitmap.RotateFlip(RotateFlipType.Rotate90FlipNone); break;
-                    case 7: bitmap.RotateFlip(RotateFlipType.Rotate90FlipX); break;
-                    case 8: bitmap.RotateFlip(RotateFlipType.Rotate270FlipNone); break;
-                }
-            }
-            catch (ArgumentException) { }
-        }
     }
 }

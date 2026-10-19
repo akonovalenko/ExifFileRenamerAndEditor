@@ -30,16 +30,15 @@ namespace ExifImageRenamer.Forms
         /// </summary>
         public ExifEditValues GetValues()
         {
-            return new ExifEditValues
-            {
-                OriginalDateTime = chSetDateTaken.Checked ? dtDateTaken.Value : (DateTime?)null,
-                Description = edDescription.Text.Trim(),
-                MakeName = edMake.Text.Trim(),
-                ModelName = edModel.Text.Trim(),
-                Software = edSoftware.Text.Trim(),
-                Artist = edArtist.Text.Trim(),
-                Copyright = edCopyright.Text.Trim()
-            };
+            return ExifFileRenamer.Code.ExifValuesMapper.FromControls(
+                chSetDateTaken.Checked ? dtDateTaken.Value : (DateTime?)null,
+                edDescription.Text.Trim(),
+                edMake.Text.Trim(),
+                edModel.Text.Trim(),
+                edSoftware.Text.Trim(),
+                edArtist.Text.Trim(),
+                edCopyright.Text.Trim(),
+                writeFullTemplate: false);
         }
 
         private void LoadValues(ExifInfo current)

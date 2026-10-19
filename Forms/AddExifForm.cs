@@ -1,3 +1,4 @@
+using ExifFileRenamer.Model;
 using ExifImageRenamer.Model;
 using System.Drawing;
 using System.Windows.Forms;

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -58,6 +58,21 @@ namespace ExifRenamer.Tests
             Assert.IsFalse(recognized, error);
             Assert.IsNotNull(exif);
             Assert.AreEqual(default(DateTime), exif.OriginalDateTime);
+        }
+
+        [TestMethod]
+        public void FileScanService_JpegWithoutExif_IsClassifiedAsNonExifImage()
+        {
+            var file = Path.Combine(_testDir, "plain-scan.jpg");
+            using (var bitmap = new Bitmap(20, 20))
+                bitmap.Save(file, ImageFormat.Jpeg);
+
+            var service = new FileScanService();
+            var result = service.CreateFileInfo(new FileInfo(file));
+
+            Assert.IsFalse(result.IsExifImage, "An image without EXIF tags must not be classified as EXIF.");
+            Assert.IsTrue(result.IsBitmapImage, "A valid image without EXIF should still be recognized as an image.");
+            Assert.AreEqual("Image non EXIF", result.Status);
         }
 
         [TestMethod]

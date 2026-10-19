@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using ExifFileRenamer;
+using ExifImageRenamer.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace ExifRenamer.Tests
@@ -27,7 +28,7 @@ namespace ExifRenamer.Tests
         {
             var jpeg = TestData.BuildJpeg(null);
 
-            var result = JpegExifRewriter.ApplyExif(jpeg,
+            var result = JpegExifRewriteService.ApplyExif(jpeg,
                 Changes(ExifTagChange.Text(TAG_MAKE, "TestMake")),
                 Changes(ExifTagChange.Text(TAG_DATETIME_ORIGINAL, "2024:06:15 10:20:30")));
 
@@ -46,7 +47,7 @@ namespace ExifRenamer.Tests
                 NoChanges());
             var jpeg = TestData.BuildJpeg(originalTiff);
 
-            var result = JpegExifRewriter.ApplyExif(jpeg, Changes(ExifTagChange.Text(TAG_MAKE, "NewMake")), NoChanges());
+            var result = JpegExifRewriteService.ApplyExif(jpeg, Changes(ExifTagChange.Text(TAG_MAKE, "NewMake")), NoChanges());
 
             CollectionAssert.AreEqual(TestData.GetScanSection(jpeg), TestData.GetScanSection(result));
             var tags = TestData.ReadAsciiTags(TestData.GetExifTiff(result));
@@ -61,7 +62,7 @@ namespace ExifRenamer.Tests
             var jpegWithExif = TestData.BuildJpeg(tiff);
             var jpegWithoutExif = TestData.BuildJpeg(null);
 
-            var result = JpegExifRewriter.RemoveExif(jpegWithExif);
+            var result = JpegExifRewriteService.RemoveExif(jpegWithExif);
 
             CollectionAssert.AreEqual(jpegWithoutExif, result,
                 "removing EXIF must produce exactly the same file as one built without EXIF");
@@ -72,7 +73,7 @@ namespace ExifRenamer.Tests
         {
             var jpeg = TestData.BuildJpeg(null);
 
-            var result = JpegExifRewriter.RemoveExif(jpeg);
+            var result = JpegExifRewriteService.RemoveExif(jpeg);
 
             Assert.AreSame(jpeg, result);
         }
@@ -82,7 +83,7 @@ namespace ExifRenamer.Tests
         {
             var jpeg = TestData.BuildJpeg(null);
 
-            var result = JpegExifRewriter.ApplyExif(jpeg, Changes(ExifTagChange.Text(TAG_MAKE, "")), NoChanges());
+            var result = JpegExifRewriteService.ApplyExif(jpeg, Changes(ExifTagChange.Text(TAG_MAKE, "")), NoChanges());
 
             Assert.AreSame(jpeg, result, "nothing to write and nothing to remove — no rewrite expected");
         }
@@ -93,18 +94,18 @@ namespace ExifRenamer.Tests
             var notJpeg = new byte[] { 0x00, 0x11, 0x22, 0x33, 0x44 };
 
             Assert.ThrowsException<InvalidOperationException>(
-                () => JpegExifRewriter.ApplyExif(notJpeg, Changes(ExifTagChange.Text(TAG_MAKE, "X")), NoChanges()));
+                () => JpegExifRewriteService.ApplyExif(notJpeg, Changes(ExifTagChange.Text(TAG_MAKE, "X")), NoChanges()));
         }
 
         [TestMethod]
         public void ApplyExif_SecondEditOfSameFile_KeepsScanDataAndOtherTags()
         {
             var jpeg = TestData.BuildJpeg(null);
-            var afterFirst = JpegExifRewriter.ApplyExif(jpeg,
+            var afterFirst = JpegExifRewriteService.ApplyExif(jpeg,
                 Changes(ExifTagChange.Text(TAG_MAKE, "Make1"), ExifTagChange.Text(TAG_ARTIST, "Alex")),
                 Changes(ExifTagChange.Text(TAG_DATETIME_ORIGINAL, "2024:06:15 10:20:30")));
 
-            var afterSecond = JpegExifRewriter.ApplyExif(afterFirst,
+            var afterSecond = JpegExifRewriteService.ApplyExif(afterFirst,
                 Changes(ExifTagChange.Text(TAG_MAKE, "Make2-longer-than-before")),
                 NoChanges());
 
@@ -122,7 +123,7 @@ namespace ExifRenamer.Tests
             var truncated = new byte[] { 0xFF, 0xD8, 0xFF, 0xE0, 0x00, 0x10, 0x01, 0x02 };
 
             Assert.ThrowsException<InvalidOperationException>(
-                () => JpegExifRewriter.ApplyExif(truncated,
+                () => JpegExifRewriteService.ApplyExif(truncated,
                     Changes(ExifTagChange.Text(TAG_MAKE, "X")), NoChanges()));
         }
 
@@ -131,7 +132,7 @@ namespace ExifRenamer.Tests
         {
             var truncated = new byte[] { 0xFF, 0xD8, 0xFF, 0xE1, 0x00, 0x10, 0x45, 0x78 };
 
-            Assert.ThrowsException<InvalidOperationException>(() => JpegExifRewriter.RemoveExif(truncated));
+            Assert.ThrowsException<InvalidOperationException>(() => JpegExifRewriteService.RemoveExif(truncated));
         }
 
     }

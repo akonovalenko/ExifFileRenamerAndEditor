@@ -2,7 +2,7 @@ using ExifFileRenamer.Model;
 using System;
 using System.Drawing;
 
-namespace ExifFileRenamer
+namespace ExifImageRenamer.Services
 {
 
     /// <summary>

@@ -43,6 +43,11 @@
 
 	<ItemGroup>
 		<Compile Include="Code\ExifTagChange.cs" />
+		<Compile Include="Code\ExifValuesMapper.cs" />
+		<Compile Include="Services\FileScanService.cs" />
+		<Compile Include="Services\ImageOrientationService.cs" />
+		<Compile Include="Model\RenameBatchResult.cs" />
+		<Compile Include="Services\RenameService.cs" />
 		<Compile Include="Code\TiffExifEditor.cs" />
 		<Compile Include="Model\AddExifDateSource.cs" />
 		<Compile Include="Model\AddExifRequest.cs" />
@@ -50,16 +55,16 @@
 		<Compile Include="Common\Constants.cs" />
 		<Compile Include="Code\FileNameTemplateFactory.cs" />
 		<Compile Include="Code\FileNameFactory.cs" />
-		<Compile Include="Code\ImageInfoExtractorService.cs" />
+		<Compile Include="Services\ImageInfoExtractorService.cs" />
 		<Compile Include="Interfaces\ISettingsProvider.cs" />
 		<Compile Include="Model\ImageInfo.cs" />
 		<Compile Include="Model\ExifInfo.cs" />
 		<Compile Include="Interfaces\IProcessingFileInfo.cs" />
 		<Compile Include="Properties\AssemblyInfo.cs" />
 		<Compile Include="Model\Settings.cs" />
-		<Compile Include="Code\ExifInfoExtractorService.cs" />
-		<Compile Include="Code\ExifWriterService.cs" />
-		<Compile Include="Code\JpegExifRewriter.cs" />
+		<Compile Include="Services\ExifInfoExtractorService.cs" />
+		<Compile Include="Services\ExifWriterService.cs" />
+		<Compile Include="Services\JpegExifRewriteService.cs" />
 		<Compile Include="Model\ExifEditValues.cs" />
 		<Compile Include="Forms\ExifEditForm.cs">
 			<SubType>Form</SubType>
@@ -100,6 +105,7 @@
 		</Compile>
 		<Compile Include="TestFriends.cs" />
 		<EmbeddedResource Include="Forms\AboutForm.resx" />
+		<EmbeddedResource Include="Forms\AddExifForm.resx" />
 		<EmbeddedResource Include="Forms\ExifEditForm.resx" />
 		<EmbeddedResource Include="Forms\Form1.resx">
 			<SubType>Designer</SubType>

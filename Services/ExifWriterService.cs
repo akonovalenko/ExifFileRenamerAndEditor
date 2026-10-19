@@ -1,3 +1,4 @@
+using ExifFileRenamer;
 using ExifFileRenamer.Model;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 
-namespace ExifFileRenamer
+namespace ExifImageRenamer.Services
 {
     /// <summary>
     /// Writes editable EXIF fields back to an image file.
@@ -86,7 +87,7 @@ namespace ExifFileRenamer
                 if (extension == "JPG" || extension == "JPEG")
                 {
                     var sourceBytes = File.ReadAllBytes(imageFileName);
-                    var newBytes = JpegExifRewriter.RemoveExif(sourceBytes);
+                    var newBytes = JpegExifRewriteService.RemoveExif(sourceBytes);
                     if (!ReferenceEquals(newBytes, sourceBytes))
                         ReplaceFile(imageFileName, tempFile => File.WriteAllBytes(tempFile, newBytes));
                 }
@@ -145,7 +146,7 @@ namespace ExifFileRenamer
                 return;
 
             var sourceBytes = File.ReadAllBytes(fileName);
-            var newBytes = JpegExifRewriter.ApplyExif(sourceBytes, ifd0Changes, exifIfdChanges);
+            var newBytes = JpegExifRewriteService.ApplyExif(sourceBytes, ifd0Changes, exifIfdChanges);
             if (ReferenceEquals(newBytes, sourceBytes))
                 return;
             ReplaceFile(fileName, tempFile => File.WriteAllBytes(tempFile, newBytes));

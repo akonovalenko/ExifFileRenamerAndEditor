@@ -1,8 +1,8 @@
 # EXIF Image Renamer and Editor
 
-A Windows desktop application (.NET Framework 4.8) for organizing photo collections by EXIF metadata: batch-renames image files using a fully customizable naming template with live preview, and views & edits EXIF fields — JPEG editing is lossless (metadata only, no re-encoding).
+A Windows desktop application targeting .NET 10 for Windows for organizing photo collections by EXIF metadata: batch-renames image files using a fully customizable naming template with live preview, and views & edits EXIF fields — JPEG editing is lossless (metadata only, no re-encoding).
 
-![.NET Framework](https://img.shields.io/badge/.NET%20Framework-4.8-512BD4) ![Platform](https://img.shields.io/badge/platform-Windows-0078D4) ![License](https://img.shields.io/badge/license-MIT-green)
+![.NET](https://img.shields.io/badge/.NET-10-512BD4) ![Platform](https://img.shields.io/badge/platform-Windows-0078D4) ![License](https://img.shields.io/badge/license-MIT-green)
 
 ---
 
@@ -27,7 +27,15 @@ Beyond renaming, the detail panel shows the full EXIF of the selected file, and 
 - **Recursive folder scan** — optional checkbox includes all subdirectories
 - **Background processing** — file loading, analysis, and renaming run on separate worker threads with a progress bar and cancellation; EXIF extraction is parallelized across all CPU cores
 - **Settings persistence** — last folder, file type filter, and window state saved to the Windows Registry
-- **Image preview** — thumbnail of the selected file with EXIF-correct orientation applied
+- **Image preview** — thumbnail of the selected file with EXIF orientation applied; double-click the grid row or preview image to open a larger, resizable preview dialog. The dialog scales the image proportionally and closes with `Esc`
+
+---
+
+## Image preview and file status
+
+The main window shows a thumbnail for the selected image. Double-click either its row in the file grid or the thumbnail to open a separate preview window. The preview keeps the image aspect ratio, applies the EXIF Orientation tag when available, and can be closed with `Esc`.
+
+The grid distinguishes images with EXIF metadata from images without EXIF, and marks non-image files separately. EXIF editing and batch EXIF operations are intended for supported image files; unsupported files are not treated as editable images.
 
 ---
 
@@ -122,13 +130,14 @@ Row background colors: **light gray** — images without EXIF metadata (candidat
 | Ctrl+Z | Undo last rename |
 | Ctrl+E | Edit EXIF of the selected file |
 | Ctrl+T | Shift EXIF dates (batch) |
+| Ctrl+O | Browse for an image folder |
 
 ---
 
 ## Requirements
 
-- Windows 7 / 10 / 11
-- .NET Framework 4.8
+- Windows 10 / 11
+- .NET 10 SDK/runtime for Windows (target framework: `net10.0-windows7.0`)
 
 ---
 
@@ -147,11 +156,13 @@ ExifRenamer
 │   └── RegistrySettingsProvider   — persists settings to HKCU\Software\AlexK
 ├── Model/                         — ExifInfo, ExifEditValues, ImageInfo, ProcessingFileInfo, Settings
 ├── Interfaces/                    — IProcessingFileInfo, ISettingsProvider
-├── ExifEditForm.cs                — modal EXIF edit dialog
-├── TimeShiftForm.cs               — batch date shift dialog
+├── Forms/ExifEditForm.cs          — modal EXIF edit dialog
+├── Forms/AddExifForm.cs           — batch EXIF creation options
+├── Forms/TimeShiftForm.cs         — batch date shift dialog
+├── Forms/ImagePreviewForm.cs      — resizable full-size preview with EXIF orientation handling
 ├── Tests/                         — MSTest unit tests for the EXIF rewriter and writer
-└── Form1.cs                       — main UI with BackgroundWorker threads
-                                     (refresh, analyze, rename, EXIF batch)
+└── Forms/Form1.cs                 — main UI with background workers
+                                     (refresh, preview, rename, undo, EXIF batch)
 ```
 
 Run the tests with `dotnet test Tests\ExifRenamer.Tests.csproj`.
@@ -160,4 +171,4 @@ EXIF reading uses .NET's built-in `System.Drawing.Image.PropertyItems`; EXIF wri
 
 # How lossless JPEG editing works
 
-`JpegExifRewriter` walks the JPEG segment chain and replaces only the APP1 (`Exif\0\0`) segment; everything from the SOS marker onward — the compressed image data — is copied byte for byte. Inside the TIFF block, existing value data is never moved: entries are patched in place when the new value fits, larger values are appended, and when a tag is added or removed only the IFD table itself is relocated to the end of the block. Absolute offsets referenced by untouched entries (maker notes, GPS IFD, thumbnail) therefore remain valid. Both byte orders (II/MM) are supported.
+`JpegExifRewriter` walks the JPEG segment chain and replaces only the APP1 (`Exif\0\0`) segment; everything from the SOS marker onward — the compressed image data — is copied byte for byte. The rewriter works directly with the JPEG APP1/TIFF metadata segment and copies the compressed image data without re-encoding it. Both TIFF byte orders (II/MM) are supported. Preservation of every vendor-specific metadata structure should be verified against representative real-world files before relying on it for archival workflows.

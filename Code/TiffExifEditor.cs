@@ -15,7 +15,11 @@ namespace ExifFileRenamer
         private const int TAG_EXIF_IFD_POINTER = 0x8769;
 
         private readonly List<byte> _buf;
-        private readonly bool _le;
+        
+        /// <summary>
+        /// Indicates whether less-than-or-equal comparison behavior is enabled.
+        /// </summary>
+        private readonly bool _isLessOrEqualEnabled;
 
         /// <summary>
         /// Applies changes to an existing TIFF block, or builds a minimal one when tiff is null.
@@ -35,15 +39,15 @@ namespace ExifFileRenamer
         {
             if (tiff == null)
             {
-                _le = true;
+                _isLessOrEqualEnabled = true;
                 _buf = new List<byte> { 0x49, 0x49, 0x2A, 0x00, 0x00, 0x00, 0x00, 0x00 };
             }
             else
             {
                 if (tiff.Length < 8)
                     throw new InvalidOperationException("EXIF TIFF header is truncated.");
-                if (tiff[0] == 0x49 && tiff[1] == 0x49) _le = true;
-                else if (tiff[0] == 0x4D && tiff[1] == 0x4D) _le = false;
+                if (tiff[0] == 0x49 && tiff[1] == 0x49) _isLessOrEqualEnabled = true;
+                else if (tiff[0] == 0x4D && tiff[1] == 0x4D) _isLessOrEqualEnabled = false;
                 else throw new InvalidOperationException("Unknown EXIF byte order marker.");
                 _buf = new List<byte>(tiff);
             }
@@ -252,7 +256,7 @@ namespace ExifFileRenamer
         {
             var raw = item as byte[];
             if (raw != null)
-                return _le ? raw[0] | (raw[1] << 8) : (raw[0] << 8) | raw[1];
+                return _isLessOrEqualEnabled ? raw[0] | (raw[1] << 8) : (raw[0] << 8) | raw[1];
             return ((ExifTagChange)item).Tag;
         }
 
@@ -322,7 +326,7 @@ namespace ExifFileRenamer
         private int ReadU16(int offset)
         {
             CheckRange(offset, 2);
-            return _le
+            return _isLessOrEqualEnabled
                 ? _buf[offset] | (_buf[offset + 1] << 8)
                 : (_buf[offset] << 8) | _buf[offset + 1];
         }
@@ -335,7 +339,7 @@ namespace ExifFileRenamer
         private uint ReadU32(int offset)
         {
             CheckRange(offset, 4);
-            return _le
+            return _isLessOrEqualEnabled
                 ? (uint)(_buf[offset] | (_buf[offset + 1] << 8) | (_buf[offset + 2] << 16) | (_buf[offset + 3] << 24))
                 : (uint)((_buf[offset] << 24) | (_buf[offset + 1] << 16) | (_buf[offset + 2] << 8) | _buf[offset + 3]);
         }
@@ -359,7 +363,7 @@ namespace ExifFileRenamer
         private void WriteU16(int offset, ushort value)
         {
             CheckRange(offset, 2);
-            if (_le) { _buf[offset] = (byte)value; _buf[offset + 1] = (byte)(value >> 8); }
+            if (_isLessOrEqualEnabled) { _buf[offset] = (byte)value; _buf[offset + 1] = (byte)(value >> 8); }
             else { _buf[offset] = (byte)(value >> 8); _buf[offset + 1] = (byte)value; }
         }
 
@@ -383,7 +387,7 @@ namespace ExifFileRenamer
         /// <returns>The byte array.</returns>
         private byte[] U32Bytes(uint value)
         {
-            return _le
+            return _isLessOrEqualEnabled
                 ? new[] { (byte)value, (byte)(value >> 8), (byte)(value >> 16), (byte)(value >> 24) }
                 : new[] { (byte)(value >> 24), (byte)(value >> 16), (byte)(value >> 8), (byte)value };
         }
@@ -394,7 +398,7 @@ namespace ExifFileRenamer
         /// <param name="value">The 16-bit unsigned integer to append.</param>
         private void AppendU16(ushort value)
         {
-            if (_le) { _buf.Add((byte)value); _buf.Add((byte)(value >> 8)); }
+            if (_isLessOrEqualEnabled) { _buf.Add((byte)value); _buf.Add((byte)(value >> 8)); }
             else { _buf.Add((byte)(value >> 8)); _buf.Add((byte)value); }
         }
 
