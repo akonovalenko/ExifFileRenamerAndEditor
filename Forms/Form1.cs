@@ -1,4 +1,5 @@
 ﻿using ExifFileRenamer.Model;
+using ExifImageRenamer;
 using ExifImageRenamer.Forms;
 using ExifImageRenamer.Model;
 using ExifImageRenamer.Services;
@@ -8,6 +9,8 @@ using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ExifFileRenamer
@@ -29,6 +32,9 @@ namespace ExifFileRenamer
         private int _renameFailedCount;
         private string _currentPreviewFileName;
         private readonly ToolTip _toolTip = new ToolTip();
+        private readonly Dictionary<GroupBox, int> _groupBoxExpandedHeights = new Dictionary<GroupBox, int>();
+        private readonly Dictionary<GroupBox, Dictionary<Control, bool>> _groupBoxChildVisibility = new Dictionary<GroupBox, Dictionary<Control, bool>>();
+        private readonly Dictionary<GroupBox, Button> _groupBoxToggleButtons = new Dictionary<GroupBox, Button>();
         #endregion
 
         #region Initialization
@@ -87,6 +93,9 @@ namespace ExifFileRenamer
 
             this.FileNameTemplate_PropertyChanged(null, null);
             this.InitializeDataGrid();
+            // Capture child visibility after the form is shown. Before that, WinForms
+            // reports Visible=false for controls whose parent form is not yet visible.
+            this.Shown += (s, e) => InitializeCollapsibleGroupBoxes();
             dataGridViewFiles.CellDoubleClick += DataGridViewFiles_CellDoubleClick;
             pictureBox1.DoubleClick += PictureBox1_DoubleClick;
 
@@ -115,6 +124,80 @@ namespace ExifFileRenamer
             // Info panel: alternating row colors
             lbFileInfo.DrawMode = DrawMode.OwnerDrawFixed;
             lbFileInfo.DrawItem += LbFileInfo_DrawItem;
+        }
+
+        private void InitializeCollapsibleGroupBoxes()
+        {
+            InitializeCollapsibleGroupBox(gbImagesDirectory);
+            InitializeCollapsibleGroupBox(gbFileNamePattern);
+            InitializeCollapsibleGroupBox(gbActions);
+        }
+
+        private void InitializeCollapsibleGroupBox(GroupBox groupBox)
+        {
+            if (groupBox == null) return;
+
+            _groupBoxExpandedHeights[groupBox] = groupBox.Height;
+            _groupBoxChildVisibility[groupBox] = groupBox.Controls
+                .Cast<Control>()
+                .ToDictionary(control => control, control => control.Visible);
+
+            var toggle = new Button
+            {
+                Name = "buToggle" + groupBox.Name,
+                Text = "▼",
+                Width = 26,
+                Height = 22,
+                Anchor = AnchorStyles.Top | AnchorStyles.Right,
+                FlatStyle = FlatStyle.Flat,
+                TabStop = true,
+                AccessibleName = "Collapse " + groupBox.Text,
+                Location = new Point(groupBox.ClientSize.Width - 32, 2),
+                Margin = Padding.Empty
+            };
+            toggle.FlatAppearance.BorderSize = 0;
+            toggle.Click += (s, e) => ToggleGroupBox(groupBox);
+            groupBox.Controls.Add(toggle);
+            toggle.BringToFront();
+            _groupBoxToggleButtons[groupBox] = toggle;
+            _toolTip.SetToolTip(toggle, "Collapse this section");
+
+            groupBox.SizeChanged += (s, e) =>
+            {
+                if (toggle.IsDisposed) return;
+                toggle.Location = new Point(groupBox.ClientSize.Width - toggle.Width - 5, 2);
+            };
+        }
+
+        private void ToggleGroupBox(GroupBox groupBox)
+        {
+            if (groupBox == null || !_groupBoxToggleButtons.TryGetValue(groupBox, out var toggle)) return;
+
+            bool collapse = groupBox.Height > 32;
+            if (collapse)
+            {
+                foreach (Control control in groupBox.Controls)
+                {
+                    if (control != toggle) control.Visible = false;
+                }
+                groupBox.Height = 32;
+                toggle.Text = "▶";
+                toggle.AccessibleName = "Expand " + groupBox.Text;
+                _toolTip.SetToolTip(toggle, "Expand this section");
+            }
+            else
+            {
+                groupBox.Height = _groupBoxExpandedHeights[groupBox];
+                foreach (var item in _groupBoxChildVisibility[groupBox])
+                {
+                    if (!item.Key.IsDisposed) item.Key.Visible = item.Value;
+                }
+                toggle.Visible = true;
+                toggle.Text = "▼";
+                toggle.AccessibleName = "Collapse " + groupBox.Text;
+                _toolTip.SetToolTip(toggle, "Collapse this section");
+                toggle.BringToFront();
+            }
         }
 
         #endregion
