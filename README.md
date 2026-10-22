@@ -30,6 +30,9 @@ Beyond renaming, the detail panel shows the full EXIF of the selected file, and 
 - **Image preview** — thumbnail of the selected file with EXIF orientation applied; double-click the grid row or preview image to open a larger, resizable preview dialog. The dialog scales the image proportionally and closes with `Esc`
 
 ---
+<img width="1055" height="957" alt="image" src="https://github.com/user-attachments/assets/f0ae25ae-a5e4-4ab5-94b9-3d53c7935fa3" />
+
+---
 
 ## Image preview and file status
 
